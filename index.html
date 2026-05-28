@@ -267,6 +267,9 @@
     gap: var(--space-10);
     align-items: center;
   }
+  .why-left { display: flex; flex-direction: column; }
+  .why-left h2 { margin-bottom: var(--space-2); }
+  .why-left .accent-rule { margin-bottom: var(--space-4); }
   .why-visual {
     background: var(--color-neutrals-90);
     border-radius: var(--radius-md);
@@ -659,16 +662,18 @@
 <section class="bg-white">
   <div class="container">
     <div class="why-grid">
-      <div class="why-visual">
-        <div class="why-visual-bg-letter">o</div>
-        <div class="why-visual-label">OpenText Intelligence</div>
-        <div class="why-visual-headline">AI-ready information management</div>
-        <div class="why-visual-tag">Blueprint V1</div>
-      </div>
-      <div class="why-text">
+      <div class="why-left">
         <span class="section-label">Modernize Now</span>
         <h2>Why customers are modernizing now</h2>
         <div class="accent-rule"></div>
+        <div class="why-visual">
+          <div class="why-visual-bg-letter">o</div>
+          <div class="why-visual-label">OpenText Intelligence</div>
+          <div class="why-visual-headline">AI-ready information management</div>
+          <div class="why-visual-tag">Blueprint V1</div>
+        </div>
+      </div>
+      <div class="why-text">
         <p>AI has shifted from nice-to-have to essential for organizations that are determined to outperform. The disruption is accumulating: companies, competitors, the pace of the market are all using AI to go faster, do more, and gain the edge.</p>
         <p>Everything is now generated, curated, content-reviewed — not just content. For those in information-heavy fields, their work is undergoing deep change. <a href="#">The blueprint is here.</a></p>
       </div>
