@@ -8,626 +8,501 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 <style>
-  /* ── Blueprint V1 Design Tokens ── */
-  :root {
-    /* Colors */
-    --color-neutrals-90:       #101c2f; /* high-contrast / dark navy */
-    --color-neutrals-20:       #f6f7f7; /* low-contrast / near white */
-    --color-surface-white:     #ffffff;
-    --color-reverse:           #101c2f;
-    --color-text-strong:       #101c2f;
-    --color-text-body:         #3f4d62;
-    --color-text-on-primary:   #f6f7f7;
-    --color-border:            #e7eaef;
-    --color-data-vis-05:       #f6c975; /* amber accent */
-    --color-brand-blue:        #0066cc; /* OpenText interactive blue */
-    --color-brand-blue-hover:  #0052a3;
-    --color-brand-teal:        #007a7a;
-    --color-brand-teal-hover:  #005f5f;
+/* ── Blueprint V1 Tokens ── */
+:root {
+  --color-navy:        #101c2f;
+  --color-navy-20:     #f6f7f7;
+  --color-white:       #ffffff;
+  --color-body:        #3f4d62;
+  --color-heading:     #101c2f;
+  --color-border:      #e7eaef;
+  --color-blue:        #0066cc;
+  --color-blue-dark:   #0052a3;
+  --color-teal:        #007a7a;
+  --color-teal-dark:   #005f5f;
+  --color-amber:       #f6c975;
 
-    /* Spacing (spacers) */
-    --space-025:  2px;
-    --space-05:   4px;
-    --space-1:    8px;
-    --space-2:   16px;
-    --space-3:   24px;
-    --space-4:   32px;
-    --space-5:   40px;
-    --space-6:   48px;
-    --space-8:   64px;
-    --space-10:  80px;
-    --space-12:  96px;
+  --font: 'Inter', sans-serif;
 
-    /* Typography — Inter variable */
-    --font:               'Inter', sans-serif;
+  /* Type scale */
+  --text-h1:    clamp(32px, 4.5vw, 56px);
+  --text-h2:    clamp(26px, 3vw, 40px);
+  --text-h3:    20px;
+  --text-h4:    18px;
+  --text-body:  16px;
+  --text-sm:    14px;
+  --text-xs:    12px;
+  --text-label: 11px;
 
-    /* Display/1 */
-    --display1-size:      130px;
-    --display1-weight:    900;
-    --display1-lh:        136px;
-    --display1-ls:        -3.52px;
+  /* Spacing */
+  --s1:  8px;
+  --s2:  16px;
+  --s3:  24px;
+  --s4:  32px;
+  --s5:  40px;
+  --s6:  48px;
+  --s8:  64px;
+  --s10: 80px;
+  --s12: 96px;
 
-    /* H1 */
-    --h1-size:            60px;
-    --h1-weight:          800;
-    --h1-lh:              66px;
-    --h1-ls:              -1.32px;
+  --radius: 4px;
+  --radius-md: 8px;
+}
 
-    /* H2 */
-    --h2-size:            46px;
-    --h2-weight:          800;
-    --h2-lh:              56px;
-    --h2-ls:              -0.02px;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  font-size: var(--text-body);
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--color-body);
+  background: var(--color-white);
+  -webkit-font-smoothing: antialiased;
+}
 
-    /* H4 */
-    --h4-size:            28px;
-    --h4-weight:          700;
-    --h4-lh:              32px;
-    --h4-ls:              -0.532px;
+/* ── Layout ── */
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 var(--s5); }
 
-    /* H5 */
-    --h5-size:            20px;
-    --h5-weight:          700;
-    --h5-lh:              28px;
-    --h5-ls:              -0.34px;
+/* ── NAV ── */
+.nav {
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky; top: 0; z-index: 100;
+  height: 54px;
+}
+.nav-inner {
+  max-width: 1440px; margin: 0 auto;
+  padding: 0 var(--s4);
+  height: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--s4);
+}
+.nav-logo {
+  font-size: 17px; font-weight: 800;
+  color: var(--color-navy);
+  text-decoration: none;
+  letter-spacing: -0.4px;
+  flex-shrink: 0;
+}
+.nav-logo em { font-style: normal; color: var(--color-blue); }
+.nav-logo sup { font-size: 8px; font-weight: 400; vertical-align: super; }
+.nav-links { display: flex; gap: var(--s3); list-style: none; }
+.nav-links a { font-size: 13px; font-weight: 500; color: var(--color-body); text-decoration: none; white-space: nowrap; }
+.nav-links a:hover { color: var(--color-blue); }
+.nav-right { display: flex; align-items: center; gap: var(--s2); }
+.nav-icon { background: none; border: none; cursor: pointer; color: var(--color-body); font-size: 16px; padding: 4px; }
+.btn-connect {
+  background: var(--color-blue); color: var(--color-white);
+  border: none; border-radius: var(--radius);
+  padding: 7px 16px; font-family: var(--font); font-size: 13px; font-weight: 600;
+  cursor: pointer;
+}
+.btn-connect:hover { background: var(--color-blue-dark); }
 
-    /* H6 */
-    --h6-size:            16px;
-    --h6-weight:          600;
-    --h6-lh:              24px;
-    --h6-ls:              -0.176px;
+/* ── ACTIVATE BAR ── */
+.activate-bar {
+  background: var(--color-navy);
+  color: rgba(246,247,247,.9);
+  text-align: center;
+  font-size: var(--text-label);
+  font-weight: 800;
+  letter-spacing: 3px;
+  padding: 7px 0;
+}
 
-    /* Body regular */
-    --body-size:          16px;
-    --body-weight:        300;
-    --body-lh:            24px;
-    --body-ls:            -0.176px;
+/* ── SECTION DIVIDER ── */
+.rule { height: 3px; background: var(--color-blue); }
 
-    /* Border radius */
-    --radius-sm:          4px;
-    --radius-md:          8px;
-    --radius-lg:          16px;
-  }
+/* ── SECTIONS ── */
+.section         { padding: var(--s12) 0; }
+.section--light  { background: var(--color-navy-20); }
+.section--white  { background: var(--color-white); }
+.section--tinted { background: #edf4fb; }
 
-  /* ── Reset ── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: var(--font);
-    font-size: var(--body-size);
-    font-weight: var(--body-weight);
-    line-height: var(--body-lh);
-    letter-spacing: var(--body-ls);
-    color: var(--color-text-body);
-    background: var(--color-surface-white);
-    -webkit-font-smoothing: antialiased;
-  }
+/* ── SECTION HEAD (shared) ── */
+.section-label {
+  display: block;
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-blue);
+  margin-bottom: var(--s1);
+}
+.section-title {
+  font-size: var(--text-h2);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  color: var(--color-heading);
+  margin-bottom: var(--s2);
+}
+.section-rule {
+  width: 44px; height: 3px;
+  background: var(--color-blue);
+  border-radius: 2px;
+  margin-bottom: var(--s4);
+}
+.section-body {
+  font-size: var(--text-body);
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--color-body);
+}
 
-  /* ── Utility ── */
-  .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-10); }
-  .section-label {
-    display: block;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: var(--color-brand-blue);
-    text-transform: uppercase;
-    margin-bottom: var(--space-1);
-  }
-  h2 {
-    font-size: var(--h2-size);
-    font-weight: var(--h2-weight);
-    line-height: var(--h2-lh);
-    letter-spacing: var(--h2-ls);
-    color: var(--color-text-strong);
-    margin-bottom: var(--space-3);
-  }
-  .accent-rule {
-    width: 48px; height: 3px;
-    background: var(--color-brand-blue);
-    border-radius: 2px;
-    margin-bottom: var(--space-4);
-  }
-  .body-text {
-    font-size: var(--body-size);
-    font-weight: var(--body-weight);
-    line-height: var(--body-lh);
-    letter-spacing: var(--body-ls);
-    color: var(--color-text-body);
-  }
+/* ── HERO ── */
+.hero {
+  background: var(--color-navy-20);
+  padding: var(--s12) var(--s5) var(--s10);
+  text-align: center;
+}
+.hero-title {
+  font-size: var(--text-h1);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  color: var(--color-heading);
+  max-width: 700px;
+  margin: 0 auto var(--s2);
+}
+.hero-sub {
+  font-size: var(--text-body);
+  font-weight: 300;
+  color: var(--color-body);
+  max-width: 460px;
+  margin: 0 auto var(--s5);
+}
+.hero-btns { display: flex; gap: var(--s2); justify-content: center; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--color-blue); color: var(--color-white);
+  border: 2px solid var(--color-blue);
+  border-radius: var(--radius);
+  padding: 12px 22px; font-family: var(--font); font-size: var(--text-sm); font-weight: 600;
+  text-decoration: none; cursor: pointer; display: inline-block;
+  transition: background .15s, border-color .15s;
+}
+.btn-primary:hover { background: var(--color-blue-dark); border-color: var(--color-blue-dark); }
+.btn-outline {
+  background: transparent; color: var(--color-blue);
+  border: 2px solid var(--color-blue);
+  border-radius: var(--radius);
+  padding: 12px 22px; font-family: var(--font); font-size: var(--text-sm); font-weight: 600;
+  text-decoration: none; cursor: pointer; display: inline-block;
+  transition: background .15s;
+}
+.btn-outline:hover { background: rgba(0,102,204,.06); }
 
-  /* ── NAV ── */
-  nav {
-    background: var(--color-surface-white);
-    border-bottom: 1px solid var(--color-border);
-    position: sticky; top: 0; z-index: 100;
-    height: 56px;
-  }
-  .nav-inner {
-    max-width: 1440px; margin: 0 auto;
-    padding: 0 var(--space-5);
-    height: 100%;
-    display: flex; align-items: center; justify-content: space-between;
-    gap: var(--space-4);
-  }
-  .nav-left { display: flex; align-items: center; gap: var(--space-4); }
-  .logo { display: flex; align-items: center; gap: var(--space-1); text-decoration: none; flex-shrink: 0; }
-  .logo-wordmark {
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--color-neutrals-90);
-    letter-spacing: -0.5px;
-  }
-  .logo-wordmark span { color: var(--color-brand-blue); }
-  .logo-tm { font-size: 9px; color: var(--color-text-body); vertical-align: super; }
-  .nav-links { display: flex; gap: var(--space-3); list-style: none; }
-  .nav-links a {
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--color-text-body);
-    letter-spacing: var(--body-ls);
-    white-space: nowrap;
-  }
-  .nav-links a:hover { color: var(--color-brand-blue); }
-  .nav-right { display: flex; align-items: center; gap: var(--space-2); }
-  .btn-nav {
-    background: var(--color-brand-blue);
-    color: var(--color-surface-white);
-    border: none;
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-sm);
-    font-family: var(--font);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-  .btn-nav:hover { background: var(--color-brand-blue-hover); }
+/* ── WHY SECTION ── */
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  min-height: 420px;
+}
+.why-img {
+  background: var(--color-navy);
+  position: relative;
+  overflow: hidden;
+  min-height: 360px;
+}
+.why-img-inner {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 60%, rgba(0,102,204,.35) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 30%, rgba(0,180,180,.2) 0%, transparent 50%),
+    linear-gradient(135deg, #060e1c 0%, #0e2040 50%, #081830 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+/* DNA strand decorative lines */
+.why-img-inner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 18px,
+      rgba(0,130,255,.07) 18px,
+      rgba(0,130,255,.07) 19px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 18px,
+      rgba(0,200,200,.05) 18px,
+      rgba(0,200,200,.05) 19px
+    );
+}
+.why-img-glow {
+  position: relative;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,120,255,.18) 0%, transparent 70%);
+  display: flex; align-items: center; justify-content: center;
+}
+.why-img-icon {
+  font-size: 72px;
+  filter: drop-shadow(0 0 24px rgba(0,140,255,.6));
+}
+.why-text-col {
+  padding: var(--s10) var(--s8) var(--s10) var(--s8);
+  display: flex; flex-direction: column; justify-content: center;
+}
+.why-text-col h2 { margin-bottom: var(--s3); }
+.why-text-col p {
+  font-size: var(--text-body);
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--color-body);
+  margin-bottom: var(--s3);
+}
+.why-text-col p:last-child { margin-bottom: 0; }
+.why-link { color: var(--color-blue); font-weight: 600; text-decoration: none; }
+.why-link:hover { text-decoration: underline; }
 
-  /* ── ACTIVATE BAR ── */
-  .activate-bar {
-    background: var(--color-neutrals-90);
-    color: var(--color-text-on-primary);
-    text-align: center;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 3px;
-    padding: var(--space-1) 0;
-  }
+/* ── PAIN POINTS ── */
+.pain-intro { max-width: 700px; margin-bottom: var(--s8); }
+.pain-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s6) var(--s8);
+}
+.pain-icon {
+  width: 36px; height: 36px;
+  margin-bottom: var(--s2);
+  color: var(--color-blue);
+}
+.pain-icon svg { width: 100%; height: 100%; }
+.pain-h {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--color-heading);
+  margin-bottom: var(--s1);
+}
+.pain-p {
+  font-size: var(--text-sm);
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--color-body);
+}
 
-  /* ── HERO ── */
-  .hero {
-    background: var(--color-neutrals-20);
-    padding: var(--space-12) var(--space-5) var(--space-10);
-    text-align: center;
-  }
-  .hero h1 {
-    font-size: clamp(32px, 5vw, var(--h1-size));
-    font-weight: var(--h1-weight);
-    line-height: 1.1;
-    letter-spacing: var(--h1-ls);
-    color: var(--color-text-strong);
-    max-width: 720px;
-    margin: 0 auto var(--space-3);
-  }
-  .hero p {
-    font-size: var(--body-size);
-    font-weight: var(--body-weight);
-    line-height: var(--body-lh);
-    color: var(--color-text-body);
-    max-width: 480px;
-    margin: 0 auto var(--space-5);
-  }
-  .hero-ctas { display: flex; gap: var(--space-2); justify-content: center; flex-wrap: wrap; }
-  .btn-primary {
-    background: var(--color-brand-blue);
-    color: var(--color-surface-white);
-    border: 2px solid var(--color-brand-blue);
-    padding: 12px var(--space-3);
-    border-radius: var(--radius-sm);
-    font-family: var(--font);
-    font-size: var(--h6-size);
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    transition: background 0.15s, border-color 0.15s;
-  }
-  .btn-primary:hover { background: var(--color-brand-blue-hover); border-color: var(--color-brand-blue-hover); }
-  .btn-outline {
-    background: transparent;
-    color: var(--color-brand-blue);
-    border: 2px solid var(--color-brand-blue);
-    padding: 12px var(--space-3);
-    border-radius: var(--radius-sm);
-    font-family: var(--font);
-    font-size: var(--h6-size);
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    transition: background 0.15s;
-  }
-  .btn-outline:hover { background: rgba(0,102,204,0.06); }
+/* ── APPROACH ── */
+.approach-intro { max-width: 680px; margin-bottom: var(--s6); }
+.approach-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 3px solid var(--color-blue);
+}
+.approach-col {
+  padding: var(--s5) var(--s5) var(--s5) 0;
+  border-right: 1px solid var(--color-border);
+}
+.approach-col:not(:first-child) { padding-left: var(--s5); }
+.approach-col:last-child { border-right: none; }
+.approach-num {
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-blue);
+  margin-bottom: var(--s1);
+}
+.approach-h {
+  font-size: var(--text-h3);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-heading);
+  margin-bottom: var(--s2);
+}
+.approach-p {
+  font-size: var(--text-sm);
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--color-body);
+}
 
-  /* ── DIVIDERS ── */
-  .rule-blue { height: 3px; background: var(--color-brand-blue); }
+/* ── HOW YOU GET THERE ── */
+.howto-desc { max-width: 680px; margin-bottom: var(--s6); }
+.howto-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s4);
+}
+.howto-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--s5);
+}
+.howto-icon {
+  width: 40px; height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--color-navy);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: var(--s3);
+}
+.howto-icon svg { width: 20px; height: 20px; stroke: #fff; }
+.howto-h {
+  font-size: var(--text-h4);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-heading);
+  margin-bottom: var(--s1);
+}
+.howto-p {
+  font-size: var(--text-sm);
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--color-body);
+}
 
-  /* ── SECTIONS ── */
-  section { padding: var(--space-12) 0; }
-  section.bg-light { background: var(--color-neutrals-20); }
-  section.bg-white { background: var(--color-surface-white); }
-  section.bg-dark  { background: var(--color-neutrals-90); }
+/* ── WHERE ACTIVATE ── */
+.where-sub { max-width: 640px; margin-bottom: var(--s6); }
+.where-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s3);
+  margin-bottom: var(--s5);
+}
+.where-card { border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+.where-img {
+  height: 188px; position: relative;
+  display: flex; align-items: flex-end; padding: var(--s2);
+}
+.where-img--blue  { background: linear-gradient(145deg,#0b1e3d,#1a3a6c); }
+.where-img--amber { background: linear-gradient(145deg,#b04e00,#e07820); }
+.where-img--teal  { background: linear-gradient(145deg,#004848,#006e6e); }
+.where-tag {
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: var(--radius);
+  color: rgba(255,255,255,.92);
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .8px; text-transform: uppercase;
+  padding: 2px 8px;
+}
+.where-body { padding: var(--s3); }
+.where-h {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-heading);
+  margin-bottom: var(--s1);
+}
+.where-p {
+  font-size: var(--text-xs);
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--color-body);
+  margin-bottom: var(--s2);
+}
+.where-link {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-blue);
+  text-decoration: none;
+}
+.where-link:hover { text-decoration: underline; }
+.where-link::after { content: ' →'; }
+.where-cta { text-align: center; }
+.btn-teal {
+  background: var(--color-teal); color: var(--color-white);
+  border: none; border-radius: var(--radius);
+  padding: 13px var(--s5); font-family: var(--font); font-size: var(--text-sm); font-weight: 600;
+  cursor: pointer; transition: background .15s;
+}
+.btn-teal:hover { background: var(--color-teal-dark); }
 
-  /* ── WHY MODERNIZING ── */
-  .why-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-10);
-    align-items: center;
-  }
-  .why-left { display: flex; flex-direction: column; }
-  .why-left h2 { margin-bottom: var(--space-2); }
-  .why-left .accent-rule { margin-bottom: var(--space-4); }
-  .why-visual {
-    background: var(--color-neutrals-90);
-    border-radius: var(--radius-md);
-    height: 320px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    overflow: hidden;
-    position: relative;
-  }
-  .why-visual-bg-letter {
-    position: absolute;
-    font-size: 280px;
-    font-weight: 900;
-    color: rgba(255,255,255,0.04);
-    right: -40px;
-    bottom: -40px;
-    line-height: 1;
-    letter-spacing: -10px;
-    user-select: none;
-  }
-  .why-visual-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: rgba(246,247,247,0.5);
-    text-transform: uppercase;
-    position: relative;
-  }
-  .why-visual-headline {
-    font-size: var(--h5-size);
-    font-weight: var(--h5-weight);
-    line-height: var(--h5-lh);
-    color: var(--color-text-on-primary);
-    text-align: center;
-    max-width: 220px;
-    position: relative;
-  }
-  .why-visual-tag {
-    background: rgba(246,247,247,0.12);
-    border: 1px solid rgba(246,247,247,0.2);
-    border-radius: var(--radius-sm);
-    color: var(--color-data-vis-05);
-    font-size: 12px;
-    font-weight: 600;
-    padding: var(--space-025) var(--space-1);
-    position: relative;
-  }
-  .why-text p {
-    font-size: var(--body-size);
-    font-weight: var(--body-weight);
-    line-height: 1.75;
-    color: var(--color-text-body);
-    margin-bottom: var(--space-3);
-  }
-  .why-text a { color: var(--color-brand-blue); font-weight: 600; text-decoration: none; }
-  .why-text a:hover { text-decoration: underline; }
+/* ── FAQ ── */
+.faq-wrap { max-width: 800px; }
+.faq-item { border-bottom: 1px solid var(--color-border); }
+.faq-btn {
+  width: 100%; background: none; border: none;
+  text-align: left; cursor: pointer;
+  padding: var(--s3) 0;
+  display: flex; justify-content: space-between; align-items: center; gap: var(--s2);
+  font-family: var(--font); font-size: var(--text-sm); font-weight: 600;
+  line-height: 1.4; color: var(--color-heading);
+}
+.faq-icon {
+  flex-shrink: 0; width: 22px; height: 22px;
+  border: 1.5px solid var(--color-blue); border-radius: 50%;
+  color: var(--color-blue);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 300; line-height: 1;
+  transition: transform .2s;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+.faq-item.open .faq-answer { max-height: 300px; }
+.faq-answer p {
+  padding: 0 var(--s5) var(--s3) 0;
+  font-size: var(--text-sm); font-weight: 300;
+  line-height: 1.75; color: var(--color-body);
+}
 
-  /* ── PAIN GRID ── */
-  .pain-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-6) var(--space-8);
-  }
-  .pain-item {}
-  .pain-icon {
-    width: 40px; height: 40px;
-    background: rgba(0,102,204,0.08);
-    border-radius: var(--radius-md);
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: var(--space-2);
-  }
-  .pain-icon svg { width: 20px; height: 20px; stroke: var(--color-brand-blue); }
-  .pain-item h3 {
-    font-size: var(--h6-size);
-    font-weight: var(--h6-weight);
-    line-height: var(--h6-lh);
-    letter-spacing: var(--h6-ls);
-    color: var(--color-text-strong);
-    margin-bottom: var(--space-1);
-  }
-  .pain-item p {
-    font-size: 15px;
-    font-weight: var(--body-weight);
-    line-height: var(--body-lh);
-    color: var(--color-text-body);
-  }
+/* ── FOOTER ── */
+.footer { background: var(--color-white); padding: var(--s8) 0 var(--s5); }
+.footer-grid {
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--s4);
+  padding-bottom: var(--s5);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--s4);
+}
+.footer-col-h {
+  font-size: var(--text-xs); font-weight: 700;
+  letter-spacing: .5px; text-transform: uppercase;
+  color: var(--color-heading); margin-bottom: var(--s2);
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.footer-col ul a {
+  font-size: 13px; font-weight: 300;
+  color: var(--color-body); text-decoration: none;
+}
+.footer-col ul a:hover { color: var(--color-blue); }
+.footer-bottom { background: var(--color-navy); padding: var(--s3) 0; }
+.footer-bottom-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 var(--s5);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: var(--s2);
+  font-size: var(--text-xs); color: rgba(246,247,247,.55);
+}
+.footer-legal { display: flex; gap: var(--s3); }
+.footer-legal a { color: rgba(246,247,247,.55); text-decoration: none; font-size: var(--text-xs); }
+.footer-legal a:hover { color: #f6f7f7; }
 
-  /* ── APPROACH COLS ── */
-  .approach-cols {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border-top: 3px solid var(--color-brand-blue);
-    margin-top: var(--space-6);
-  }
-  .approach-col {
-    padding: var(--space-5) var(--space-4) var(--space-5) 0;
-    border-right: 1px solid var(--color-border);
-    padding-right: var(--space-5);
-    padding-left: var(--space-5);
-  }
-  .approach-col:first-child { padding-left: 0; }
-  .approach-col:last-child { border-right: none; }
-  .approach-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    color: var(--color-brand-blue);
-    text-transform: uppercase;
-    margin-bottom: var(--space-2);
-  }
-  .approach-col h3 {
-    font-size: var(--h4-size);
-    font-weight: var(--h4-weight);
-    line-height: var(--h4-lh);
-    letter-spacing: var(--h4-ls);
-    color: var(--color-text-strong);
-    margin-bottom: var(--space-2);
-  }
-  .approach-col p {
-    font-size: 15px;
-    font-weight: var(--body-weight);
-    line-height: 1.7;
-    color: var(--color-text-body);
-  }
-
-  /* ── HOW TO GRID ── */
-  .howto-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-4);
-    margin-top: var(--space-6);
-  }
-  .howto-card {
-    background: var(--color-surface-white);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: var(--space-5);
-  }
-  .howto-card-icon {
-    width: 44px; height: 44px;
-    background: var(--color-neutrals-90);
-    border-radius: var(--radius-md);
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: var(--space-3);
-  }
-  .howto-card-icon svg { width: 22px; height: 22px; stroke: var(--color-text-on-primary); }
-  .howto-card h3 {
-    font-size: var(--h5-size);
-    font-weight: var(--h5-weight);
-    line-height: var(--h5-lh);
-    letter-spacing: var(--h5-ls);
-    color: var(--color-text-strong);
-    margin-bottom: var(--space-1);
-  }
-  .howto-card p {
-    font-size: 15px;
-    font-weight: var(--body-weight);
-    line-height: 1.7;
-    color: var(--color-text-body);
-  }
-
-  /* ── WHERE CARDS ── */
-  .where-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-4);
-    margin-bottom: var(--space-5);
-  }
-  .where-card {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    background: var(--color-surface-white);
-  }
-  .where-card-media {
-    height: 196px;
-    position: relative;
-    display: flex; align-items: flex-end;
-    padding: var(--space-3);
-  }
-  .where-card-media.navy  { background: linear-gradient(145deg, #0e2240 0%, #1a3a6c 100%); }
-  .where-card-media.amber { background: linear-gradient(145deg, #c45c00 0%, #e88020 100%); }
-  .where-card-media.teal  { background: linear-gradient(145deg, #005050 0%, #007a7a 100%); }
-  .where-card-tag {
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.25);
-    border-radius: var(--radius-sm);
-    color: rgba(255,255,255,0.9);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    padding: 2px var(--space-1);
-    text-transform: uppercase;
-  }
-  .where-card-body { padding: var(--space-3) var(--space-3) var(--space-4); }
-  .where-card-body h3 {
-    font-size: var(--h6-size);
-    font-weight: var(--h6-weight);
-    line-height: var(--h6-lh);
-    letter-spacing: var(--h6-ls);
-    color: var(--color-text-strong);
-    margin-bottom: var(--space-1);
-  }
-  .where-card-body p {
-    font-size: 14px;
-    font-weight: var(--body-weight);
-    line-height: var(--body-lh);
-    color: var(--color-text-body);
-    margin-bottom: var(--space-2);
-  }
-  .link-arrow {
-    color: var(--color-brand-blue);
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    display: inline-flex; align-items: center; gap: 4px;
-  }
-  .link-arrow:hover { text-decoration: underline; }
-  .link-arrow::after { content: '→'; }
-  .where-cta { text-align: center; }
-  .btn-teal {
-    background: var(--color-brand-teal);
-    color: var(--color-surface-white);
-    border: none;
-    padding: 14px var(--space-5);
-    border-radius: var(--radius-sm);
-    font-family: var(--font);
-    font-size: var(--h6-size);
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-  .btn-teal:hover { background: var(--color-brand-teal-hover); }
-
-  /* ── FAQ ── */
-  .faq-list { max-width: 800px; margin: 0 auto; }
-  .faq-item { border-bottom: 1px solid var(--color-border); }
-  .faq-question {
-    width: 100%; background: none; border: none; text-align: left;
-    padding: var(--space-3) 0;
-    font-family: var(--font);
-    font-size: var(--h6-size);
-    font-weight: var(--h6-weight);
-    line-height: var(--h6-lh);
-    letter-spacing: var(--h6-ls);
-    color: var(--color-text-strong);
-    cursor: pointer;
-    display: flex; justify-content: space-between; align-items: center;
-    gap: var(--space-2);
-  }
-  .faq-question .faq-icon {
-    flex-shrink: 0;
-    width: 24px; height: 24px;
-    border: 1.5px solid var(--color-brand-blue);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--color-brand-blue);
-    font-size: 16px;
-    font-weight: 300;
-    transition: transform 0.2s;
-    line-height: 1;
-  }
-  .faq-item.open .faq-icon { transform: rotate(45deg); }
-  .faq-answer {
-    max-height: 0; overflow: hidden;
-    transition: max-height 0.3s ease;
-  }
-  .faq-answer p {
-    padding: 0 var(--space-5) var(--space-3) 0;
-    font-size: 15px;
-    font-weight: var(--body-weight);
-    line-height: 1.75;
-    color: var(--color-text-body);
-  }
-  .faq-item.open .faq-answer { max-height: 400px; }
-
-  /* ── FOOTER ── */
-  .footer-nav { background: var(--color-surface-white); padding: var(--space-8) 0 var(--space-5); }
-  .footer-cols {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: var(--space-4);
-    padding-bottom: var(--space-5);
-    border-bottom: 1px solid var(--color-border);
-    margin-bottom: var(--space-4);
-  }
-  .footer-col h4 {
-    font-size: 12px;
-    font-weight: var(--h6-weight);
-    letter-spacing: 0.5px;
-    color: var(--color-text-strong);
-    margin-bottom: var(--space-2);
-    text-transform: uppercase;
-  }
-  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: var(--space-1); }
-  .footer-col ul a {
-    font-size: 13px;
-    font-weight: var(--body-weight);
-    color: var(--color-text-body);
-    text-decoration: none;
-    line-height: var(--body-lh);
-  }
-  .footer-col ul a:hover { color: var(--color-brand-blue); }
-  .footer-bottom {
-    background: var(--color-neutrals-90);
-    color: rgba(246,247,247,0.6);
-    padding: var(--space-3) 0;
-  }
-  .footer-bottom-inner {
-    max-width: 1200px; margin: 0 auto; padding: 0 var(--space-10);
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: var(--space-2);
-    font-size: 12px;
-  }
-  .footer-bottom-links { display: flex; gap: var(--space-3); }
-  .footer-bottom a { color: rgba(246,247,247,0.6); text-decoration: none; }
-  .footer-bottom a:hover { color: var(--color-text-on-primary); }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 1024px) {
-    .footer-cols { grid-template-columns: repeat(3, 1fr); }
-  }
-  @media (max-width: 900px) {
-    .why-grid,
-    .pain-grid,
-    .approach-cols { grid-template-columns: 1fr 1fr; }
-    .howto-grid,
-    .where-cards   { grid-template-columns: 1fr 1fr; }
-    .approach-col  { border-right: none; border-bottom: 1px solid var(--color-border); padding-left: 0; }
-    .approach-col:last-child { border-bottom: none; }
-    h2 { font-size: 36px; }
-  }
-  @media (max-width: 640px) {
-    :root { --space-10: 24px; }
-    .pain-grid,
-    .approach-cols,
-    .howto-grid,
-    .where-cards,
-    .footer-cols { grid-template-columns: 1fr; }
-    .why-grid { grid-template-columns: 1fr; }
-    h2 { font-size: 28px; }
-    .hero h1 { font-size: 28px; }
-    .nav-links { display: none; }
-  }
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .footer-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px) {
+  .why-grid   { grid-template-columns: 1fr; }
+  .pain-grid  { grid-template-columns: 1fr 1fr; }
+  .approach-cols { grid-template-columns: 1fr; }
+  .approach-col { border-right: none; border-bottom: 1px solid var(--color-border); padding-left: 0 !important; }
+  .approach-col:last-child { border-bottom: none; }
+  .howto-grid,
+  .where-cards { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  :root { --s5: 20px; --s10: 20px; }
+  .pain-grid,
+  .approach-cols,
+  .howto-grid,
+  .where-cards,
+  .footer-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav>
+<header class="nav">
   <div class="nav-inner">
-    <div class="nav-left">
-      <a class="logo" href="#">
-        <span class="logo-wordmark">open<span>text</span><sup class="logo-tm">™</sup></span>
-      </a>
+    <div style="display:flex;align-items:center;gap:32px;">
+      <a class="nav-logo" href="#">open<em>text</em><sup>™</sup></a>
       <ul class="nav-links">
         <li><a href="#">Why OpenText</a></li>
         <li><a href="#">Products</a></li>
@@ -639,224 +514,239 @@
       </ul>
     </div>
     <div class="nav-right">
-      <button class="btn-nav">Connect</button>
+      <button class="nav-icon" aria-label="Search">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+      <button class="nav-icon" aria-label="Settings">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+      <button class="btn-connect">Connect</button>
     </div>
   </div>
-</nav>
+</header>
 
-<!-- ACTIVATE BADGE -->
+<!-- ACTIVATE SUB-NAV -->
 <div class="activate-bar">ACTIVATE</div>
 
 <!-- HERO -->
 <section class="hero">
-  <h1>Activate your information for the agentic AI era</h1>
-  <p>AI agents act on your information. How ready is yours?</p>
-  <div class="hero-ctas">
+  <h1 class="hero-title">Activate your information for the agentic AI era</h1>
+  <p class="hero-sub">AI agents act on your information. How ready is yours?</p>
+  <div class="hero-btns">
     <a class="btn-primary" href="#">Start your AI read now</a>
     <a class="btn-outline" href="#">Find your product</a>
   </div>
 </section>
-<div class="rule-blue"></div>
+<div class="rule"></div>
 
-<!-- WHY MODERNIZING -->
-<section class="bg-white">
-  <div class="container">
-    <div class="why-grid">
-      <div class="why-left">
-        <span class="section-label">Modernize Now</span>
-        <h2>Why customers are modernizing now</h2>
-        <div class="accent-rule"></div>
-        <div class="why-visual">
-          <div class="why-visual-bg-letter">o</div>
-          <div class="why-visual-label">OpenText Intelligence</div>
-          <div class="why-visual-headline">AI-ready information management</div>
-          <div class="why-visual-tag">Blueprint V1</div>
+<!-- WHY CUSTOMERS -->
+<section class="section section--white" style="padding:0;">
+  <div class="why-grid">
+    <div class="why-img">
+      <div class="why-img-inner">
+        <div class="why-img-glow">
+          <div class="why-img-icon">🧬</div>
         </div>
       </div>
-      <div class="why-text">
-        <p>AI has shifted from nice-to-have to essential for organizations that are determined to outperform. The disruption is accumulating: companies, competitors, the pace of the market are all using AI to go faster, do more, and gain the edge.</p>
-        <p>Everything is now generated, curated, content-reviewed — not just content. For those in information-heavy fields, their work is undergoing deep change. <a href="#">The blueprint is here.</a></p>
-      </div>
+    </div>
+    <div class="why-text-col">
+      <span class="section-label">Modernize Now</span>
+      <h2 class="section-title">Why customers are modernizing now</h2>
+      <div class="section-rule"></div>
+      <p>AI has shifted from the sideline to the center of everything. Organizations that are ahead are not waiting — they are building on information that is governed, connected, and AI-ready. The gap between them and organizations that are not is growing.</p>
+      <p>Everything is now generated, created, content-reviewed, not just content. For those in information-heavy fields, their work is undergoing deep change. <a class="why-link" href="#">The blueprint is here.</a></p>
     </div>
   </div>
 </section>
-<div class="rule-blue"></div>
+<div class="rule"></div>
 
-<!-- SLOW DOWN -->
-<section class="bg-light">
-  <div class="container">
+<!-- WHERE ENVIRONMENTS SLOW DOWN -->
+<section class="section section--light">
+  <div class="wrap">
     <span class="section-label">Challenges</span>
-    <h2>Where environments start to slow down</h2>
-    <div class="accent-rule"></div>
-    <p class="body-text" style="max-width:680px; margin-bottom: var(--space-8);">On-premises environments require increasing effort to maintain and evolve. These challenges don't resolve on their own. The gap between your environment and what AI requires widens. The cost of waiting is not neutral — it compounds.</p>
+    <h2 class="section-title">Where environments start to slow down</h2>
+    <div class="section-rule"></div>
+    <p class="section-body pain-intro">On-premises environments require increasing effort to maintain and evolve. These challenges don't resolve on their own. There is no silver lining to postponement; the gap between your environment and what AI requires widens. The cost of waiting is not neutral — it compounds.</p>
     <div class="pain-grid">
 
-      <div class="pain-item">
+      <div>
         <div class="pain-icon">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6l8-3 8 3M4 18l8 3 8-3"/></svg>
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+          </svg>
         </div>
-        <h3>Upgrade cycles are delayed or avoided</h3>
-        <p>High risk, long timelines, and significant disruption risk slow or stall modernization.</p>
+        <p class="pain-h">Upgrade cycles are delayed or avoided</p>
+        <p class="pain-p">High risk, long timelines, and long gap time.</p>
       </div>
 
-      <div class="pain-item">
+      <div>
         <div class="pain-icon">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13.828 10.172a4 4 0 0 0-5.656 0l-4 4a4 4 0 1 0 5.656 5.656l1.102-1.101"/><path d="M14.828 10.828a4 4 0 0 1 5.656 0l-4 4a4 4 0 0 1-5.656 0l1.102-1.101"/></svg>
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+          </svg>
         </div>
-        <h3>Integrations require ongoing effort</h3>
-        <p>Keeping pace with core systems adds complexity and maintenance overhead constantly.</p>
+        <p class="pain-h">Integrations require ongoing effort</p>
+        <p class="pain-p">Keeping pace with core systems adds constant complexity.</p>
       </div>
 
-      <div class="pain-item">
+      <div>
         <div class="pain-icon">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
         </div>
-        <h3>Governance is inconsistent</h3>
-        <p>Access control and policies shift and fragment in a siloed on-premises environment.</p>
+        <p class="pain-h">Governance is inconsistent</p>
+        <p class="pain-p">Cannot enforce access control in a siloed environment.</p>
       </div>
 
-      <div class="pain-item">
+      <div>
         <div class="pain-icon">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"/></svg>
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+          </svg>
         </div>
-        <h3>Information is difficult to use in AI and automation</h3>
-        <p>Limited structure, access control, or context makes your data AI-inaccessible.</p>
+        <p class="pain-h">Information is difficult to use in AI and automation</p>
+        <p class="pain-p">Limited structure, access control, or context.</p>
       </div>
 
-      <div class="pain-item">
+      <div>
         <div class="pain-icon">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>
+          </svg>
         </div>
-        <h3>Compliance and security posture is harder to maintain</h3>
-        <p>Staying current requires constant patching and ongoing reevaluation of risk.</p>
+        <p class="pain-h">Compliance and security posture is harder to maintain</p>
+        <p class="pain-p">Staying current requires patching, and reevaluating risk.</p>
       </div>
 
-      <div class="pain-item">
+      <div>
         <div class="pain-icon">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
         </div>
-        <h3>The cost of staying put is rising</h3>
-        <p>Support costs and maintenance grow while the foundation for innovation shrinks.</p>
+        <p class="pain-h">The cost of staying put is rising</p>
+        <p class="pain-p">Support costs, maintenance grows, and the financial case to move is growing too.</p>
       </div>
 
     </div>
   </div>
 </section>
-<div class="rule-blue"></div>
+<div class="rule"></div>
 
 <!-- STRUCTURED APPROACH -->
-<section class="bg-white">
-  <div class="container">
+<section class="section section--white">
+  <div class="wrap">
     <span class="section-label">Methodology</span>
-    <h2>A structured approach to modernization</h2>
-    <div class="accent-rule"></div>
-    <p class="body-text" style="max-width:680px;">ACTIVATE with OpenText provides a structured path to modernize your environment without disrupting existing operations. It focuses on improving how your information is governed, integrated, and used — so it can support automation, AI, and ongoing change.</p>
+    <h2 class="section-title">A structured approach to modernization</h2>
+    <div class="section-rule"></div>
+    <p class="section-body approach-intro">ACTIVATE with OpenText provides a structured path to modernize your environment without disrupting existing operations. It focuses on improving how your information is governed, integrated, and used—so it can support automation, AI, and ongoing change.</p>
     <div class="approach-cols">
       <div class="approach-col">
-        <div class="approach-label">01 — Never upgrade again</div>
-        <h3>Never upgrade again</h3>
-        <p>Eliminate disruptive upgrade cycles and move to a continuous cloud release cadence. All innovation for your segments and technology is continuously leveraged.</p>
+        <div class="approach-num">Never upgrade again</div>
+        <h3 class="approach-h">Never upgrade again</h3>
+        <p class="approach-p">Eliminate disruptive upgrade cycles and move to continuous cloud release cadence. All the innovation for segments and technology, leveraged more.</p>
       </div>
       <div class="approach-col">
-        <div class="approach-label">02 — Trusted AI</div>
-        <h3>Trusted, AI-ready information</h3>
-        <p>Your content becomes AI-suitable: structured, governed, and secure. Every piece of content becomes a durable AI asset. No extra budget required to start.</p>
+        <div class="approach-num">Trusted, AI-ready information</div>
+        <h3 class="approach-h">Trusted, AI-ready information</h3>
+        <p class="approach-p">Your content becomes AI-suitable from a suitable form: structured, governed, secure. Every piece of content becomes a durable AI asset. No extra budget required to start.</p>
       </div>
       <div class="approach-col">
-        <div class="approach-label">03 — Economics</div>
-        <h3>Predictable economics</h3>
-        <p>Your existing maintenance investment funds the transition. No extra budget required to start — just redirect what you are already spending.</p>
+        <div class="approach-num">Predictable economics</div>
+        <h3 class="approach-h">Predictable economics</h3>
+        <p class="approach-p">Your existing maintenance investment funds the transition. No extra budget required to start.</p>
       </div>
     </div>
   </div>
 </section>
-<div class="rule-blue"></div>
+<div class="rule"></div>
 
 <!-- HOW YOU GET THERE -->
-<section class="bg-light">
-  <div class="container">
+<section class="section section--tinted">
+  <div class="wrap">
     <span class="section-label">Benefits</span>
-    <h2>How you get there, without the pain</h2>
-    <div class="accent-rule"></div>
-    <p class="body-text" style="max-width:640px;">A proven path that preserves what works, modernizes what doesn't, and positions your organization to move at the pace of AI — continuously.</p>
+    <h2 class="section-title">How you get there, without the pain</h2>
+    <div class="section-rule"></div>
+    <p class="section-body howto-desc">Optional Section description – max 256 char. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
     <div class="howto-grid">
 
       <div class="howto-card">
-        <div class="howto-card-icon">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="white" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <div class="howto-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
         </div>
-        <h3>Economic certainty</h3>
-        <p>Your existing maintenance investment programs the transition. Costs are upfront and predictable, not accumulating after the fact.</p>
+        <h3 class="howto-h">Economic certainty</h3>
+        <p class="howto-p">Your existing maintenance investment programmes the transition. Costs are instead upfront, accumulation after the fact.</p>
       </div>
 
       <div class="howto-card">
-        <div class="howto-card-icon">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="white" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+        <div class="howto-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0 1 12 2.944a11.955 11.955 0 0 1-8.618 3.04A12.02 12.02 0 0 0 3 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
         </div>
-        <h3>Protected integrations</h3>
-        <p>A progressive API model with verified patterns keeps 400+ cross-remaining integrations intact throughout, keeping your data and operations effective.</p>
+        <h3 class="howto-h">Protected integrations</h3>
+        <p class="howto-p">A progressive API model with verified patterns to join, between 200 and 400+ cross-remaining integrations intact throughout, keeping your data and operations effective.</p>
       </div>
 
       <div class="howto-card">
-        <div class="howto-card-icon">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="white" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div class="howto-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
-        <h3>AI governance baseline</h3>
-        <p>Security, permissions, and audit-readiness from day one. Access and security controls are in place before AI is in scope — compliance is built into the baseline.</p>
+        <h3 class="howto-h">AI governance baseline</h3>
+        <p class="howto-p">Security, permissions, and audit ready from day one. Access and security are in place before AI is in scope. Compliance is in baseline before the function.</p>
       </div>
 
       <div class="howto-card">
-        <div class="howto-card-icon">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="white" stroke-linecap="round" stroke-linejoin="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        <div class="howto-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
         </div>
-        <h3>Innovation access</h3>
-        <p>ACTIVATE is designed for ongoing cloud pace and delivers cloud-first thinking. Keeping pace becomes the default, not an exceptional effort.</p>
+        <h3 class="howto-h">Innovation access</h3>
+        <p class="howto-p">ACTIVATE is designed for ongoing cloud pace and delivers cloud-first thinking. Keeping pace is the default. Moving pace is its own.</p>
       </div>
 
     </div>
   </div>
 </section>
-<div class="rule-blue"></div>
+<div class="rule"></div>
 
-<!-- WHERE ACTIVATE -->
-<section class="bg-white">
-  <div class="container">
+<!-- WHERE WILL YOU ACTIVATE -->
+<section class="section section--white">
+  <div class="wrap">
     <span class="section-label">Use Cases</span>
-    <h2>Where will you activate your information?</h2>
-    <div class="accent-rule"></div>
-    <p class="body-text" style="max-width:640px; margin-bottom: var(--space-6);">Apply the solution across your environment.</p>
+    <h2 class="section-title">Where will you activate your information?</h2>
+    <div class="section-rule"></div>
+    <p class="section-body where-sub">Apply the solution across your environment.</p>
     <div class="where-cards">
 
       <div class="where-card">
-        <div class="where-card-media navy">
-          <span class="where-card-tag">ECM / ERAS / ETO</span>
+        <div class="where-img where-img--blue">
+          <span class="where-tag">ECM / ERAS / ETO</span>
         </div>
-        <div class="where-card-body">
-          <h3>Activate your content</h3>
-          <p>OpenText Content Management (Extended ECM, Content Server, or Documentum)</p>
-          <a class="link-arrow" href="#">Learn more</a>
-        </div>
-      </div>
-
-      <div class="where-card">
-        <div class="where-card-media amber">
-          <span class="where-card-tag">FIN / I-2-P / PROCURE</span>
-        </div>
-        <div class="where-card-body">
-          <h3>Activate your customer communications</h3>
-          <p>OpenText CCM (Communications Management, StreamServe, or Exstream)</p>
-          <a class="link-arrow" href="#">Learn more</a>
+        <div class="where-body">
+          <p class="where-h">Activate your content</p>
+          <p class="where-p">OpenText Content Management (Extended ECM, Content Server, or Documentum)</p>
+          <a class="where-link" href="#">Learn more</a>
         </div>
       </div>
 
       <div class="where-card">
-        <div class="where-card-media teal">
-          <span class="where-card-tag">FAX / eFAX / FaxPro2</span>
+        <div class="where-img where-img--amber">
+          <span class="where-tag">FIN / I-2-P / PROCURE</span>
         </div>
-        <div class="where-card-body">
-          <h3>Activate your cloud fax infrastructure</h3>
-          <p>OpenText RightFax, XMFax, FaxCloud</p>
-          <a class="link-arrow" href="#">Learn more</a>
+        <div class="where-body">
+          <p class="where-h">Activate your customer communications</p>
+          <p class="where-p">OpenText CCM (Communications Management, StreamServe, or Exstream)</p>
+          <a class="where-link" href="#">Learn more</a>
+        </div>
+      </div>
+
+      <div class="where-card">
+        <div class="where-img where-img--teal">
+          <span class="where-tag">FAX / eFAX / FaxPro2</span>
+        </div>
+        <div class="where-body">
+          <p class="where-h">Activate your cloud fax infrastructure</p>
+          <p class="where-p">OpenText RightFax, XMFax, FaxCloud</p>
+          <a class="where-link" href="#">Learn more</a>
         </div>
       </div>
 
@@ -866,28 +756,28 @@
     </div>
   </div>
 </section>
-<div class="rule-blue"></div>
+<div class="rule"></div>
 
 <!-- FAQ -->
-<section class="bg-light">
-  <div class="container" style="max-width: 900px;">
+<section class="section section--light">
+  <div class="wrap">
     <span class="section-label">FAQ</span>
-    <h2>Answer common modernization questions</h2>
-    <div class="accent-rule"></div>
-    <div class="faq-list">
+    <h2 class="section-title">Answer common modernization questions</h2>
+    <div class="section-rule"></div>
+    <div class="faq-wrap">
 
       <div class="faq-item open">
-        <button class="faq-question">
+        <button class="faq-btn">
           Will this disrupt our operations or break existing integrations?
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer">
-          <p>No. ACTIVATE with OpenText uses a phased approach where core environments are not impacted. The integration framework has been validated and our configuration, workflows, and integrations stay in place throughout migration. Your data, your teams, and your timeline are protected.</p>
+          <p>No. ACTIVATE with OpenText uses a phased approach where core environments are not impacted and you're not cut over. The integration framework has been validated. Our configuration, workflows, and integrations stay in place throughout migration.</p>
         </div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-btn">
           Do we need to replace our current platform to modernize?
           <span class="faq-icon">+</span>
         </button>
@@ -897,7 +787,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-btn">
           Why does timing matter — why not wait until we're ready?
           <span class="faq-icon">+</span>
         </button>
@@ -907,7 +797,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-btn">
           We don't know where to start. What does the first step look like?
           <span class="faq-icon">+</span>
         </button>
@@ -917,7 +807,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-btn">
           How is this funded? We don't have budget for a new initiative.
           <span class="faq-icon">+</span>
         </button>
@@ -927,17 +817,17 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-btn">
           How long does a typical modernization take?
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer">
-          <p>Timelines vary by environment complexity, but most organizations see meaningful milestones within 90 days of starting. Full modernization typically occurs in phases over 12–24 months, with benefits realized throughout.</p>
+          <p>Timelines vary by environment complexity, but most organizations see meaningful milestones within 90 days of starting. Full modernization typically occurs in phases over 12–24 months.</p>
         </div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-btn">
           How is this different from a standard migration?
           <span class="faq-icon">+</span>
         </button>
@@ -949,81 +839,81 @@
     </div>
   </div>
 </section>
-<div class="rule-blue"></div>
+<div class="rule"></div>
 
-<!-- FOOTER NAV -->
-<footer class="footer-nav">
-  <div class="container">
-    <div class="footer-cols">
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
       <div class="footer-col">
-        <h4>Products</h4>
+        <p class="footer-col-h">Heading Link</p>
         <ul>
-          <li><a href="#">Content Cloud</a></li>
-          <li><a href="#">Business Network</a></li>
-          <li><a href="#">Experience Cloud</a></li>
-          <li><a href="#">Security Cloud</a></li>
-          <li><a href="#">Developer Cloud</a></li>
+          <li><a href="#">Link 01</a></li>
+          <li><a href="#">Link 02</a></li>
+          <li><a href="#">Link 03</a></li>
+          <li><a href="#">Link 04</a></li>
+          <li><a href="#">Link 05</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Solutions</h4>
+        <p class="footer-col-h">Heading Link</p>
         <ul>
-          <li><a href="#">Financial Services</a></li>
-          <li><a href="#">Healthcare</a></li>
-          <li><a href="#">Manufacturing</a></li>
-          <li><a href="#">Public Sector</a></li>
-          <li><a href="#">Legal</a></li>
+          <li><a href="#">Link 01</a></li>
+          <li><a href="#">Link 02</a></li>
+          <li><a href="#">Link 03</a></li>
+          <li><a href="#">Link 04</a></li>
+          <li><a href="#">Link 05</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Services</h4>
+        <p class="footer-col-h">Heading Link</p>
         <ul>
-          <li><a href="#">Professional Services</a></li>
-          <li><a href="#">Managed Services</a></li>
-          <li><a href="#">Training</a></li>
-          <li><a href="#">Customer Success</a></li>
-          <li><a href="#">Support</a></li>
+          <li><a href="#">Link 01</a></li>
+          <li><a href="#">Link 02</a></li>
+          <li><a href="#">Link 03</a></li>
+          <li><a href="#">Link 04</a></li>
+          <li><a href="#">Link 05</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Partners</h4>
+        <p class="footer-col-h">Heading Link</p>
         <ul>
-          <li><a href="#">Partner Program</a></li>
-          <li><a href="#">Find a Partner</a></li>
-          <li><a href="#">Become a Partner</a></li>
-          <li><a href="#">Developer Portal</a></li>
-          <li><a href="#">Marketplace</a></li>
+          <li><a href="#">Link 01</a></li>
+          <li><a href="#">Link 02</a></li>
+          <li><a href="#">Link 03</a></li>
+          <li><a href="#">Link 04</a></li>
+          <li><a href="#">Link 05</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Company</h4>
+        <p class="footer-col-h">Heading Link</p>
         <ul>
-          <li><a href="#">About OpenText</a></li>
-          <li><a href="#">Leadership</a></li>
-          <li><a href="#">Newsroom</a></li>
-          <li><a href="#">Investors</a></li>
-          <li><a href="#">Careers</a></li>
+          <li><a href="#">Link 01</a></li>
+          <li><a href="#">Link 02</a></li>
+          <li><a href="#">Link 03</a></li>
+          <li><a href="#">Link 04</a></li>
+          <li><a href="#">Link 05</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Resources</h4>
+        <p class="footer-col-h">Heading Link</p>
         <ul>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Webinars</a></li>
-          <li><a href="#">Case Studies</a></li>
-          <li><a href="#">White Papers</a></li>
-          <li><a href="#">Events</a></li>
+          <li><a href="#">Link 01</a></li>
+          <li><a href="#">Link 02</a></li>
+          <li><a href="#">Link 03</a></li>
+          <li><a href="#">Link 04</a></li>
+          <li><a href="#">Link 05</a></li>
         </ul>
       </div>
     </div>
   </div>
 </footer>
 
-<!-- FOOTER BOTTOM -->
 <div class="footer-bottom">
   <div class="footer-bottom-inner">
-    <span>© 2025 Open Text Corporation. All rights reserved.</span>
-    <div class="footer-bottom-links">
+    <span>+1 800 499 6544</span>
+    <div class="footer-legal">
+      <span>© 2025 Open Text Corporation. All rights reserved.</span>
       <a href="#">Privacy</a>
       <a href="#">Legal</a>
       <a href="#">Accessibility</a>
@@ -1034,7 +924,7 @@
 </div>
 
 <script>
-  document.querySelectorAll('.faq-question').forEach(btn => {
+  document.querySelectorAll('.faq-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.closest('.faq-item');
       const isOpen = item.classList.contains('open');
