@@ -4,249 +4,614 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OpenText ACTIVATE – Activate your information for the agentic AI era</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 <style>
+  /* ── Blueprint V1 Design Tokens ── */
+  :root {
+    /* Colors */
+    --color-neutrals-90:       #101c2f; /* high-contrast / dark navy */
+    --color-neutrals-20:       #f6f7f7; /* low-contrast / near white */
+    --color-surface-white:     #ffffff;
+    --color-reverse:           #101c2f;
+    --color-text-strong:       #101c2f;
+    --color-text-body:         #3f4d62;
+    --color-text-on-primary:   #f6f7f7;
+    --color-border:            #e7eaef;
+    --color-data-vis-05:       #f6c975; /* amber accent */
+    --color-brand-blue:        #0066cc; /* OpenText interactive blue */
+    --color-brand-blue-hover:  #0052a3;
+    --color-brand-teal:        #007a7a;
+    --color-brand-teal-hover:  #005f5f;
+
+    /* Spacing (spacers) */
+    --space-025:  2px;
+    --space-05:   4px;
+    --space-1:    8px;
+    --space-2:   16px;
+    --space-3:   24px;
+    --space-4:   32px;
+    --space-5:   40px;
+    --space-6:   48px;
+    --space-8:   64px;
+    --space-10:  80px;
+    --space-12:  96px;
+
+    /* Typography — Inter variable */
+    --font:               'Inter', sans-serif;
+
+    /* Display/1 */
+    --display1-size:      130px;
+    --display1-weight:    900;
+    --display1-lh:        136px;
+    --display1-ls:        -3.52px;
+
+    /* H1 */
+    --h1-size:            60px;
+    --h1-weight:          800;
+    --h1-lh:              66px;
+    --h1-ls:              -1.32px;
+
+    /* H2 */
+    --h2-size:            46px;
+    --h2-weight:          800;
+    --h2-lh:              56px;
+    --h2-ls:              -0.02px;
+
+    /* H4 */
+    --h4-size:            28px;
+    --h4-weight:          700;
+    --h4-lh:              32px;
+    --h4-ls:              -0.532px;
+
+    /* H5 */
+    --h5-size:            20px;
+    --h5-weight:          700;
+    --h5-lh:              28px;
+    --h5-ls:              -0.34px;
+
+    /* H6 */
+    --h6-size:            16px;
+    --h6-weight:          600;
+    --h6-lh:              24px;
+    --h6-ls:              -0.176px;
+
+    /* Body regular */
+    --body-size:          16px;
+    --body-weight:        300;
+    --body-lh:            24px;
+    --body-ls:            -0.176px;
+
+    /* Border radius */
+    --radius-sm:          4px;
+    --radius-md:          8px;
+    --radius-lg:          16px;
+  }
+
+  /* ── Reset ── */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a1a; background: #fff; }
+  body {
+    font-family: var(--font);
+    font-size: var(--body-size);
+    font-weight: var(--body-weight);
+    line-height: var(--body-lh);
+    letter-spacing: var(--body-ls);
+    color: var(--color-text-body);
+    background: var(--color-surface-white);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Utility ── */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-10); }
+  .section-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--color-brand-blue);
+    text-transform: uppercase;
+    margin-bottom: var(--space-1);
+  }
+  h2 {
+    font-size: var(--h2-size);
+    font-weight: var(--h2-weight);
+    line-height: var(--h2-lh);
+    letter-spacing: var(--h2-ls);
+    color: var(--color-text-strong);
+    margin-bottom: var(--space-3);
+  }
+  .accent-rule {
+    width: 48px; height: 3px;
+    background: var(--color-brand-blue);
+    border-radius: 2px;
+    margin-bottom: var(--space-4);
+  }
+  .body-text {
+    font-size: var(--body-size);
+    font-weight: var(--body-weight);
+    line-height: var(--body-lh);
+    letter-spacing: var(--body-ls);
+    color: var(--color-text-body);
+  }
 
   /* ── NAV ── */
   nav {
-    background: #fff;
-    border-bottom: 1px solid #e0e0e0;
+    background: var(--color-surface-white);
+    border-bottom: 1px solid var(--color-border);
     position: sticky; top: 0; z-index: 100;
-    padding: 0 40px;
-    display: flex; align-items: center; justify-content: space-between;
     height: 56px;
   }
-  .nav-left { display: flex; align-items: center; gap: 32px; }
-  .logo { display: flex; align-items: center; gap: 6px; text-decoration: none; }
-  .logo-box {
-    background: #0066cc;
-    color: #fff;
-    font-weight: 700; font-size: 13px;
-    padding: 4px 8px;
-    border-radius: 2px;
-    letter-spacing: .5px;
+  .nav-inner {
+    max-width: 1440px; margin: 0 auto;
+    padding: 0 var(--space-5);
+    height: 100%;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--space-4);
   }
-  .logo-text { font-size: 13px; font-weight: 600; color: #0066cc; }
-  .nav-links { display: flex; gap: 24px; list-style: none; }
-  .nav-links a { text-decoration: none; color: #333; font-size: 13px; font-weight: 500; }
-  .nav-links a:hover { color: #0066cc; }
-  .nav-right { display: flex; align-items: center; gap: 16px; }
-  .nav-right a { font-size: 13px; color: #333; text-decoration: none; }
-  .nav-btn {
-    background: #0066cc; color: #fff; border: none;
-    padding: 8px 18px; border-radius: 4px;
-    font-size: 13px; font-weight: 600; cursor: pointer;
+  .nav-left { display: flex; align-items: center; gap: var(--space-4); }
+  .logo { display: flex; align-items: center; gap: var(--space-1); text-decoration: none; flex-shrink: 0; }
+  .logo-wordmark {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--color-neutrals-90);
+    letter-spacing: -0.5px;
   }
+  .logo-wordmark span { color: var(--color-brand-blue); }
+  .logo-tm { font-size: 9px; color: var(--color-text-body); vertical-align: super; }
+  .nav-links { display: flex; gap: var(--space-3); list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-body);
+    letter-spacing: var(--body-ls);
+    white-space: nowrap;
+  }
+  .nav-links a:hover { color: var(--color-brand-blue); }
+  .nav-right { display: flex; align-items: center; gap: var(--space-2); }
+  .btn-nav {
+    background: var(--color-brand-blue);
+    color: var(--color-surface-white);
+    border: none;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .btn-nav:hover { background: var(--color-brand-blue-hover); }
 
-  /* ── ACTIVATE BADGE ── */
+  /* ── ACTIVATE BAR ── */
   .activate-bar {
-    background: #003366;
-    color: #fff;
+    background: var(--color-neutrals-90);
+    color: var(--color-text-on-primary);
     text-align: center;
     font-size: 11px;
-    letter-spacing: 2px;
-    font-weight: 700;
-    padding: 6px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    padding: var(--space-1) 0;
   }
 
   /* ── HERO ── */
   .hero {
-    background: linear-gradient(135deg, #f0f6ff 0%, #e8f0fb 100%);
+    background: var(--color-neutrals-20);
+    padding: var(--space-12) var(--space-5) var(--space-10);
     text-align: center;
-    padding: 80px 40px 70px;
   }
   .hero h1 {
-    font-size: 40px; font-weight: 700; color: #0a1f44;
-    max-width: 680px; margin: 0 auto 18px;
-    line-height: 1.2;
+    font-size: clamp(32px, 5vw, var(--h1-size));
+    font-weight: var(--h1-weight);
+    line-height: 1.1;
+    letter-spacing: var(--h1-ls);
+    color: var(--color-text-strong);
+    max-width: 720px;
+    margin: 0 auto var(--space-3);
   }
   .hero p {
-    font-size: 16px; color: #444; max-width: 520px; margin: 0 auto 32px;
-    line-height: 1.6;
+    font-size: var(--body-size);
+    font-weight: var(--body-weight);
+    line-height: var(--body-lh);
+    color: var(--color-text-body);
+    max-width: 480px;
+    margin: 0 auto var(--space-5);
   }
-  .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .hero-ctas { display: flex; gap: var(--space-2); justify-content: center; flex-wrap: wrap; }
   .btn-primary {
-    background: #0066cc; color: #fff; border: none;
-    padding: 13px 26px; border-radius: 4px; font-size: 14px; font-weight: 600;
-    cursor: pointer; text-decoration: none;
+    background: var(--color-brand-blue);
+    color: var(--color-surface-white);
+    border: 2px solid var(--color-brand-blue);
+    padding: 12px var(--space-3);
+    border-radius: var(--radius-sm);
+    font-family: var(--font);
+    font-size: var(--h6-size);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.15s, border-color 0.15s;
   }
+  .btn-primary:hover { background: var(--color-brand-blue-hover); border-color: var(--color-brand-blue-hover); }
   .btn-outline {
-    background: transparent; color: #0066cc;
-    border: 2px solid #0066cc;
-    padding: 11px 26px; border-radius: 4px; font-size: 14px; font-weight: 600;
-    cursor: pointer; text-decoration: none;
+    background: transparent;
+    color: var(--color-brand-blue);
+    border: 2px solid var(--color-brand-blue);
+    padding: 12px var(--space-3);
+    border-radius: var(--radius-sm);
+    font-family: var(--font);
+    font-size: var(--h6-size);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.15s;
   }
-  .btn-primary:hover { background: #0052a3; }
-  .btn-outline:hover { background: #e8f0ff; }
+  .btn-outline:hover { background: rgba(0,102,204,0.06); }
 
-  /* ── SECTION COMMONS ── */
-  section { padding: 72px 40px; }
-  .section-label {
-    display: block; font-size: 11px; font-weight: 700; letter-spacing: 2px;
-    color: #0066cc; text-transform: uppercase; margin-bottom: 10px;
-  }
-  h2 { font-size: 32px; font-weight: 700; color: #0a1f44; margin-bottom: 18px; }
-  .section-intro { font-size: 16px; color: #555; max-width: 640px; line-height: 1.7; }
-  .accent-line {
-    width: 60px; height: 4px; background: #0066cc; margin: 14px 0 0;
-    border-radius: 2px;
-  }
+  /* ── DIVIDERS ── */
+  .rule-blue { height: 3px; background: var(--color-brand-blue); }
+
+  /* ── SECTIONS ── */
+  section { padding: var(--space-12) 0; }
+  section.bg-light { background: var(--color-neutrals-20); }
+  section.bg-white { background: var(--color-surface-white); }
+  section.bg-dark  { background: var(--color-neutrals-90); }
 
   /* ── WHY MODERNIZING ── */
-  .why-section { background: #fff; }
-  .why-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; max-width: 1100px; margin: 0 auto; }
-  .why-image {
-    position: relative; border-radius: 6px; overflow: hidden;
-    background: #0a1f44;
-    height: 300px;
-    display: flex; align-items: center; justify-content: center;
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-10);
+    align-items: center;
   }
-  .why-image-placeholder {
-    width: 100%; height: 100%;
-    background: linear-gradient(135deg, #0a1f44 0%, #1a3a6e 50%, #0a2d5a 100%);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    color: #aac8f0;
-    font-size: 13px; text-align: center; padding: 20px;
+  .why-visual {
+    background: var(--color-neutrals-90);
+    border-radius: var(--radius-md);
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    overflow: hidden;
+    position: relative;
   }
-  .why-image-placeholder .dna-icon { font-size: 48px; margin-bottom: 10px; }
-  .why-text p { font-size: 15px; color: #444; line-height: 1.7; margin-bottom: 14px; }
-  .why-text .highlight-link { color: #0066cc; font-weight: 600; text-decoration: none; }
+  .why-visual-bg-letter {
+    position: absolute;
+    font-size: 280px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.04);
+    right: -40px;
+    bottom: -40px;
+    line-height: 1;
+    letter-spacing: -10px;
+    user-select: none;
+  }
+  .why-visual-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: rgba(246,247,247,0.5);
+    text-transform: uppercase;
+    position: relative;
+  }
+  .why-visual-headline {
+    font-size: var(--h5-size);
+    font-weight: var(--h5-weight);
+    line-height: var(--h5-lh);
+    color: var(--color-text-on-primary);
+    text-align: center;
+    max-width: 220px;
+    position: relative;
+  }
+  .why-visual-tag {
+    background: rgba(246,247,247,0.12);
+    border: 1px solid rgba(246,247,247,0.2);
+    border-radius: var(--radius-sm);
+    color: var(--color-data-vis-05);
+    font-size: 12px;
+    font-weight: 600;
+    padding: var(--space-025) var(--space-1);
+    position: relative;
+  }
+  .why-text p {
+    font-size: var(--body-size);
+    font-weight: var(--body-weight);
+    line-height: 1.75;
+    color: var(--color-text-body);
+    margin-bottom: var(--space-3);
+  }
+  .why-text a { color: var(--color-brand-blue); font-weight: 600; text-decoration: none; }
+  .why-text a:hover { text-decoration: underline; }
 
-  /* ── SLOW DOWN ── */
-  .slowdown { background: #f7f9fc; }
-  .slowdown .section-head { max-width: 1100px; margin: 0 auto 48px; }
+  /* ── PAIN GRID ── */
   .pain-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 36px;
-    max-width: 1100px; margin: 0 auto;
+    gap: var(--space-6) var(--space-8);
   }
-  .pain-card { padding: 0; }
-  .pain-icon { font-size: 28px; color: #0066cc; margin-bottom: 14px; }
-  .pain-card h3 { font-size: 16px; font-weight: 700; color: #0a1f44; margin-bottom: 8px; }
-  .pain-card p { font-size: 14px; color: #555; line-height: 1.6; }
-
-  /* ── STRUCTURED APPROACH ── */
-  .approach { background: #fff; }
-  .approach .section-head { max-width: 1100px; margin: 0 auto 48px; }
-  .approach-cols {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
-    max-width: 1100px; margin: 0 auto;
-    border-top: 4px solid #0066cc;
-  }
-  .approach-col { padding: 32px 28px; border-right: 1px solid #e0e0e0; }
-  .approach-col:last-child { border-right: none; }
-  .approach-col .col-number {
-    font-size: 11px; font-weight: 700; color: #0066cc; letter-spacing: 2px;
-    text-transform: uppercase; margin-bottom: 10px;
-  }
-  .approach-col h3 { font-size: 20px; font-weight: 700; color: #0a1f44; margin-bottom: 12px; }
-  .approach-col p { font-size: 14px; color: #555; line-height: 1.65; }
-
-  /* ── HOW YOU GET THERE ── */
-  .howto { background: #f0f6ff; }
-  .howto .section-head { max-width: 1100px; margin: 0 auto 48px; }
-  .howto-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px;
-    max-width: 1100px; margin: 0 auto;
-  }
-  .howto-card { background: #fff; border-radius: 6px; padding: 32px; box-shadow: 0 1px 6px rgba(0,0,0,.06); }
-  .howto-icon { font-size: 26px; color: #0066cc; margin-bottom: 14px; }
-  .howto-card h3 { font-size: 17px; font-weight: 700; color: #0a1f44; margin-bottom: 10px; }
-  .howto-card p { font-size: 14px; color: #555; line-height: 1.65; }
-
-  /* ── WHERE ACTIVATE ── */
-  .where { background: #fff; }
-  .where .section-head { max-width: 1100px; margin: 0 auto 12px; }
-  .where-sub { font-size: 15px; color: #555; max-width: 1100px; margin: 0 auto 40px; }
-  .where-cards {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
-    max-width: 1100px; margin: 0 auto 36px;
-  }
-  .where-card { border-radius: 6px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
-  .where-card-img {
-    height: 180px;
+  .pain-item {}
+  .pain-icon {
+    width: 40px; height: 40px;
+    background: rgba(0,102,204,0.08);
+    border-radius: var(--radius-md);
     display: flex; align-items: center; justify-content: center;
-    font-size: 36px;
+    margin-bottom: var(--space-2);
+  }
+  .pain-icon svg { width: 20px; height: 20px; stroke: var(--color-brand-blue); }
+  .pain-item h3 {
+    font-size: var(--h6-size);
+    font-weight: var(--h6-weight);
+    line-height: var(--h6-lh);
+    letter-spacing: var(--h6-ls);
+    color: var(--color-text-strong);
+    margin-bottom: var(--space-1);
+  }
+  .pain-item p {
+    font-size: 15px;
+    font-weight: var(--body-weight);
+    line-height: var(--body-lh);
+    color: var(--color-text-body);
+  }
+
+  /* ── APPROACH COLS ── */
+  .approach-cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 3px solid var(--color-brand-blue);
+    margin-top: var(--space-6);
+  }
+  .approach-col {
+    padding: var(--space-5) var(--space-4) var(--space-5) 0;
+    border-right: 1px solid var(--color-border);
+    padding-right: var(--space-5);
+    padding-left: var(--space-5);
+  }
+  .approach-col:first-child { padding-left: 0; }
+  .approach-col:last-child { border-right: none; }
+  .approach-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--color-brand-blue);
+    text-transform: uppercase;
+    margin-bottom: var(--space-2);
+  }
+  .approach-col h3 {
+    font-size: var(--h4-size);
+    font-weight: var(--h4-weight);
+    line-height: var(--h4-lh);
+    letter-spacing: var(--h4-ls);
+    color: var(--color-text-strong);
+    margin-bottom: var(--space-2);
+  }
+  .approach-col p {
+    font-size: 15px;
+    font-weight: var(--body-weight);
+    line-height: 1.7;
+    color: var(--color-text-body);
+  }
+
+  /* ── HOW TO GRID ── */
+  .howto-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+  .howto-card {
+    background: var(--color-surface-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+  }
+  .howto-card-icon {
+    width: 44px; height: 44px;
+    background: var(--color-neutrals-90);
+    border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: var(--space-3);
+  }
+  .howto-card-icon svg { width: 22px; height: 22px; stroke: var(--color-text-on-primary); }
+  .howto-card h3 {
+    font-size: var(--h5-size);
+    font-weight: var(--h5-weight);
+    line-height: var(--h5-lh);
+    letter-spacing: var(--h5-ls);
+    color: var(--color-text-strong);
+    margin-bottom: var(--space-1);
+  }
+  .howto-card p {
+    font-size: 15px;
+    font-weight: var(--body-weight);
+    line-height: 1.7;
+    color: var(--color-text-body);
+  }
+
+  /* ── WHERE CARDS ── */
+  .where-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+  .where-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-surface-white);
+  }
+  .where-card-media {
+    height: 196px;
     position: relative;
+    display: flex; align-items: flex-end;
+    padding: var(--space-3);
   }
-  .where-card-img.blue { background: linear-gradient(135deg, #1a3a8c, #0066cc); }
-  .where-card-img.orange { background: linear-gradient(135deg, #e07020, #f5a623); }
-  .where-card-img.teal { background: linear-gradient(135deg, #1a6b6b, #2abcbc); }
-  .where-card-img .tag {
-    position: absolute; top: 10px; left: 10px;
-    background: rgba(255,255,255,.2); color: #fff;
-    font-size: 10px; padding: 3px 8px; border-radius: 2px; font-weight: 600;
+  .where-card-media.navy  { background: linear-gradient(145deg, #0e2240 0%, #1a3a6c 100%); }
+  .where-card-media.amber { background: linear-gradient(145deg, #c45c00 0%, #e88020 100%); }
+  .where-card-media.teal  { background: linear-gradient(145deg, #005050 0%, #007a7a 100%); }
+  .where-card-tag {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: var(--radius-sm);
+    color: rgba(255,255,255,0.9);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 2px var(--space-1);
+    text-transform: uppercase;
   }
-  .where-card-body { padding: 22px; }
-  .where-card-body h3 { font-size: 16px; font-weight: 700; color: #0a1f44; margin-bottom: 8px; }
-  .where-card-body p { font-size: 13px; color: #666; line-height: 1.6; margin-bottom: 14px; }
-  .learn-more { color: #0066cc; font-size: 13px; font-weight: 600; text-decoration: none; }
-  .learn-more:hover { text-decoration: underline; }
-  .where-cta { text-align: center; margin-top: 8px; }
+  .where-card-body { padding: var(--space-3) var(--space-3) var(--space-4); }
+  .where-card-body h3 {
+    font-size: var(--h6-size);
+    font-weight: var(--h6-weight);
+    line-height: var(--h6-lh);
+    letter-spacing: var(--h6-ls);
+    color: var(--color-text-strong);
+    margin-bottom: var(--space-1);
+  }
+  .where-card-body p {
+    font-size: 14px;
+    font-weight: var(--body-weight);
+    line-height: var(--body-lh);
+    color: var(--color-text-body);
+    margin-bottom: var(--space-2);
+  }
+  .link-arrow {
+    color: var(--color-brand-blue);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .link-arrow:hover { text-decoration: underline; }
+  .link-arrow::after { content: '→'; }
+  .where-cta { text-align: center; }
   .btn-teal {
-    background: #008080; color: #fff; border: none;
-    padding: 13px 28px; border-radius: 4px; font-size: 14px; font-weight: 600;
+    background: var(--color-brand-teal);
+    color: var(--color-surface-white);
+    border: none;
+    padding: 14px var(--space-5);
+    border-radius: var(--radius-sm);
+    font-family: var(--font);
+    font-size: var(--h6-size);
+    font-weight: 600;
     cursor: pointer;
+    transition: background 0.15s;
   }
-  .btn-teal:hover { background: #006666; }
+  .btn-teal:hover { background: var(--color-brand-teal-hover); }
 
   /* ── FAQ ── */
-  .faq { background: #f7f9fc; }
-  .faq .section-head { max-width: 800px; margin: 0 auto 40px; }
   .faq-list { max-width: 800px; margin: 0 auto; }
-  .faq-item { border-bottom: 1px solid #dde3ed; }
+  .faq-item { border-bottom: 1px solid var(--color-border); }
   .faq-question {
     width: 100%; background: none; border: none; text-align: left;
-    padding: 20px 0; font-size: 15px; font-weight: 600; color: #0a1f44;
-    cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-  }
-  .faq-question .icon { font-size: 20px; color: #0066cc; font-weight: 300; flex-shrink: 0; }
-  .faq-answer { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
-  .faq-answer p { padding: 0 0 20px; font-size: 14px; color: #555; line-height: 1.7; }
-  .faq-item.open .faq-answer { max-height: 400px; }
-  .faq-item.open .icon { transform: rotate(45deg); }
-  .icon { display: inline-block; transition: transform .2s; }
-
-  /* ── FOOTER NAV TABLE ── */
-  .footer-nav { background: #fff; padding: 40px 40px 24px; border-top: 1px solid #e0e0e0; }
-  .footer-cols {
-    display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px;
-    max-width: 1100px; margin: 0 auto 32px;
-  }
-  .footer-col h4 { font-size: 12px; font-weight: 700; color: #0a1f44; margin-bottom: 12px; text-transform: uppercase; letter-spacing: .5px; }
-  .footer-col ul { list-style: none; }
-  .footer-col ul li { margin-bottom: 8px; }
-  .footer-col ul li a { font-size: 12px; color: #555; text-decoration: none; }
-  .footer-col ul li a:hover { color: #0066cc; }
-
-  /* ── FOOTER BOTTOM ── */
-  .footer-bottom {
-    background: #0a1f44; color: #aac0d8;
-    padding: 20px 40px;
+    padding: var(--space-3) 0;
+    font-family: var(--font);
+    font-size: var(--h6-size);
+    font-weight: var(--h6-weight);
+    line-height: var(--h6-lh);
+    letter-spacing: var(--h6-ls);
+    color: var(--color-text-strong);
+    cursor: pointer;
     display: flex; justify-content: space-between; align-items: center;
-    font-size: 12px; flex-wrap: wrap; gap: 12px;
+    gap: var(--space-2);
   }
-  .footer-bottom a { color: #aac0d8; text-decoration: none; margin-left: 16px; }
-  .footer-bottom a:hover { color: #fff; }
+  .faq-question .faq-icon {
+    flex-shrink: 0;
+    width: 24px; height: 24px;
+    border: 1.5px solid var(--color-brand-blue);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--color-brand-blue);
+    font-size: 16px;
+    font-weight: 300;
+    transition: transform 0.2s;
+    line-height: 1;
+  }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+  .faq-answer {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .faq-answer p {
+    padding: 0 var(--space-5) var(--space-3) 0;
+    font-size: 15px;
+    font-weight: var(--body-weight);
+    line-height: 1.75;
+    color: var(--color-text-body);
+  }
+  .faq-item.open .faq-answer { max-height: 400px; }
 
-  /* ── DIVIDERS ── */
-  .blue-divider { height: 4px; background: linear-gradient(90deg, #0066cc, #0099ff); }
+  /* ── FOOTER ── */
+  .footer-nav { background: var(--color-surface-white); padding: var(--space-8) 0 var(--space-5); }
+  .footer-cols {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--space-4);
+    padding-bottom: var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-4);
+  }
+  .footer-col h4 {
+    font-size: 12px;
+    font-weight: var(--h6-weight);
+    letter-spacing: 0.5px;
+    color: var(--color-text-strong);
+    margin-bottom: var(--space-2);
+    text-transform: uppercase;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: var(--space-1); }
+  .footer-col ul a {
+    font-size: 13px;
+    font-weight: var(--body-weight);
+    color: var(--color-text-body);
+    text-decoration: none;
+    line-height: var(--body-lh);
+  }
+  .footer-col ul a:hover { color: var(--color-brand-blue); }
+  .footer-bottom {
+    background: var(--color-neutrals-90);
+    color: rgba(246,247,247,0.6);
+    padding: var(--space-3) 0;
+  }
+  .footer-bottom-inner {
+    max-width: 1200px; margin: 0 auto; padding: 0 var(--space-10);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: var(--space-2);
+    font-size: 12px;
+  }
+  .footer-bottom-links { display: flex; gap: var(--space-3); }
+  .footer-bottom a { color: rgba(246,247,247,0.6); text-decoration: none; }
+  .footer-bottom a:hover { color: var(--color-text-on-primary); }
 
   /* ── RESPONSIVE ── */
-  @media (max-width: 900px) {
-    .pain-grid, .approach-cols, .howto-grid, .where-cards, .footer-cols { grid-template-columns: 1fr 1fr; }
-    .why-inner { grid-template-columns: 1fr; }
-    .approach-col { border-right: none; border-bottom: 1px solid #e0e0e0; }
+  @media (max-width: 1024px) {
+    .footer-cols { grid-template-columns: repeat(3, 1fr); }
   }
-  @media (max-width: 600px) {
-    h2 { font-size: 24px; }
+  @media (max-width: 900px) {
+    .why-grid,
+    .pain-grid,
+    .approach-cols { grid-template-columns: 1fr 1fr; }
+    .howto-grid,
+    .where-cards   { grid-template-columns: 1fr 1fr; }
+    .approach-col  { border-right: none; border-bottom: 1px solid var(--color-border); padding-left: 0; }
+    .approach-col:last-child { border-bottom: none; }
+    h2 { font-size: 36px; }
+  }
+  @media (max-width: 640px) {
+    :root { --space-10: 24px; }
+    .pain-grid,
+    .approach-cols,
+    .howto-grid,
+    .where-cards,
+    .footer-cols { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    h2 { font-size: 28px; }
     .hero h1 { font-size: 28px; }
-    .pain-grid, .approach-cols, .howto-grid, .where-cards, .footer-cols { grid-template-columns: 1fr; }
-    nav { padding: 0 16px; }
-    section { padding: 48px 20px; }
     .nav-links { display: none; }
   }
 </style>
@@ -255,24 +620,24 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-left">
-    <a class="logo" href="#">
-      <span class="logo-box">open</span><span class="logo-text">text</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#">Why OpenText</a></li>
-      <li><a href="#">Products</a></li>
-      <li><a href="#">Solutions</a></li>
-      <li><a href="#">Services</a></li>
-      <li><a href="#">Partners</a></li>
-      <li><a href="#">Support</a></li>
-      <li><a href="#">Resources</a></li>
-    </ul>
-  </div>
-  <div class="nav-right">
-    <a href="#">🔍</a>
-    <a href="#">⚙️</a>
-    <button class="nav-btn">Connect</button>
+  <div class="nav-inner">
+    <div class="nav-left">
+      <a class="logo" href="#">
+        <span class="logo-wordmark">open<span>text</span><sup class="logo-tm">™</sup></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#">Why OpenText</a></li>
+        <li><a href="#">Products</a></li>
+        <li><a href="#">Solutions</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Partners</a></li>
+        <li><a href="#">Support</a></li>
+        <li><a href="#">Resources</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <button class="btn-nav">Connect</button>
+    </div>
   </div>
 </nav>
 
@@ -283,337 +648,383 @@
 <section class="hero">
   <h1>Activate your information for the agentic AI era</h1>
   <p>AI agents act on your information. How ready is yours?</p>
-  <div class="hero-btns">
+  <div class="hero-ctas">
     <a class="btn-primary" href="#">Start your AI read now</a>
     <a class="btn-outline" href="#">Find your product</a>
   </div>
 </section>
-<div class="blue-divider"></div>
+<div class="rule-blue"></div>
 
 <!-- WHY MODERNIZING -->
-<section class="why-section">
-  <div class="why-inner">
-    <div class="why-image">
-      <div class="why-image-placeholder">
-        <div class="dna-icon">🧬</div>
-        <p style="font-size:12px; color:#6fa8d6;">AI-powered information<br>management platform</p>
+<section class="bg-white">
+  <div class="container">
+    <div class="why-grid">
+      <div class="why-visual">
+        <div class="why-visual-bg-letter">o</div>
+        <div class="why-visual-label">OpenText Intelligence</div>
+        <div class="why-visual-headline">AI-ready information management</div>
+        <div class="why-visual-tag">Blueprint V1</div>
+      </div>
+      <div class="why-text">
+        <span class="section-label">Modernize Now</span>
+        <h2>Why customers are modernizing now</h2>
+        <div class="accent-rule"></div>
+        <p>AI has shifted from nice-to-have to essential for organizations that are determined to outperform. The disruption is accumulating: companies, competitors, the pace of the market are all using AI to go faster, do more, and gain the edge.</p>
+        <p>Everything is now generated, curated, content-reviewed — not just content. For those in information-heavy fields, their work is undergoing deep change. <a href="#">The blueprint is here.</a></p>
       </div>
     </div>
-    <div class="why-text">
-      <span class="section-label">MODERNIZE NOW</span>
-      <h2>Why customers are modernizing now</h2>
-      <div class="accent-line" style="margin-bottom:20px;"></div>
-      <p>AI has shifted from nice-to-have to essential for organizations that are determined to outperform. The disruption is accumulating: companies, competitors, the pace of the market are all using AI to go faster, do more, and gain the edge.</p>
-      <p>Everything is now generated, curated, content-reviewed, not just content. For those in information-heavy fields, their work is undergoing deep change. <a class="highlight-link" href="#">The blueprint is here.</a></p>
-    </div>
   </div>
 </section>
-<div class="blue-divider"></div>
+<div class="rule-blue"></div>
 
-<!-- WHERE SLOW DOWN -->
-<section class="slowdown">
-  <div class="section-head">
-    <span class="section-label">CHALLENGES</span>
+<!-- SLOW DOWN -->
+<section class="bg-light">
+  <div class="container">
+    <span class="section-label">Challenges</span>
     <h2>Where environments start to slow down</h2>
-    <div class="accent-line" style="margin-bottom:16px;"></div>
-    <p class="section-intro">On-premises environments require increasing effort to maintain and evolve. These challenges don't resolve on their own. There is no silver lining to postponement; the gap between your environment and what AI requires widens. The cost of waiting is not neutral — it compounds.</p>
-  </div>
-  <div class="pain-grid">
-    <div class="pain-card">
-      <div class="pain-icon">🔄</div>
-      <h3>Upgrade cycles are delayed or avoided</h3>
-      <p>High risk, long timelines, and disruption risk.</p>
-    </div>
-    <div class="pain-card">
-      <div class="pain-icon">🔗</div>
-      <h3>Integrations require ongoing effort</h3>
-      <p>Keeping pace with core systems adds complexity.</p>
-    </div>
-    <div class="pain-card">
-      <div class="pain-icon">⚖️</div>
-      <h3>Governance is inconsistent</h3>
-      <p>Access and policies shift in a siloed environment.</p>
-    </div>
-    <div class="pain-card">
-      <div class="pain-icon">🤖</div>
-      <h3>Information is difficult to use in AI and automation</h3>
-      <p>Limited structure, access control, or context.</p>
-    </div>
-    <div class="pain-card">
-      <div class="pain-icon">🛡️</div>
-      <h3>Compliance and security posture is harder to maintain</h3>
-      <p>Staying current requires patching, and reevaluating risk.</p>
-    </div>
-    <div class="pain-card">
-      <div class="pain-icon">💰</div>
-      <h3>The cost of staying put is rising</h3>
-      <p>Support costs, maintenance grows, and the focus to move is gone to basics.</p>
+    <div class="accent-rule"></div>
+    <p class="body-text" style="max-width:680px; margin-bottom: var(--space-8);">On-premises environments require increasing effort to maintain and evolve. These challenges don't resolve on their own. The gap between your environment and what AI requires widens. The cost of waiting is not neutral — it compounds.</p>
+    <div class="pain-grid">
+
+      <div class="pain-item">
+        <div class="pain-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6l8-3 8 3M4 18l8 3 8-3"/></svg>
+        </div>
+        <h3>Upgrade cycles are delayed or avoided</h3>
+        <p>High risk, long timelines, and significant disruption risk slow or stall modernization.</p>
+      </div>
+
+      <div class="pain-item">
+        <div class="pain-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13.828 10.172a4 4 0 0 0-5.656 0l-4 4a4 4 0 1 0 5.656 5.656l1.102-1.101"/><path d="M14.828 10.828a4 4 0 0 1 5.656 0l-4 4a4 4 0 0 1-5.656 0l1.102-1.101"/></svg>
+        </div>
+        <h3>Integrations require ongoing effort</h3>
+        <p>Keeping pace with core systems adds complexity and maintenance overhead constantly.</p>
+      </div>
+
+      <div class="pain-item">
+        <div class="pain-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <h3>Governance is inconsistent</h3>
+        <p>Access control and policies shift and fragment in a siloed on-premises environment.</p>
+      </div>
+
+      <div class="pain-item">
+        <div class="pain-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"/></svg>
+        </div>
+        <h3>Information is difficult to use in AI and automation</h3>
+        <p>Limited structure, access control, or context makes your data AI-inaccessible.</p>
+      </div>
+
+      <div class="pain-item">
+        <div class="pain-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Compliance and security posture is harder to maintain</h3>
+        <p>Staying current requires constant patching and ongoing reevaluation of risk.</p>
+      </div>
+
+      <div class="pain-item">
+        <div class="pain-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h3>The cost of staying put is rising</h3>
+        <p>Support costs and maintenance grow while the foundation for innovation shrinks.</p>
+      </div>
+
     </div>
   </div>
 </section>
-<div class="blue-divider"></div>
+<div class="rule-blue"></div>
 
 <!-- STRUCTURED APPROACH -->
-<section class="approach">
-  <div class="section-head">
-    <span class="section-label">METHODOLOGY</span>
+<section class="bg-white">
+  <div class="container">
+    <span class="section-label">Methodology</span>
     <h2>A structured approach to modernization</h2>
-    <div class="accent-line" style="margin-bottom:16px;"></div>
-    <p class="section-intro">ACTIVATE with OpenText provides a structured path to modernize your environment without disrupting existing operations. It focuses on improving how your information is governed, integrated, and used—so it can support automation, AI, and ongoing change.</p>
-  </div>
-  <div class="approach-cols">
-    <div class="approach-col">
-      <div class="col-number">01 — NEVER UPGRADE AGAIN</div>
-      <h3>Never upgrade again</h3>
-      <p>Eliminate disruptive upgrade cycles and move to continuous cloud release cadence. All the innovation for segments and technology, leveraged more.</p>
-    </div>
-    <div class="approach-col">
-      <div class="col-number">02 — TRUSTED AI</div>
-      <h3>Trusted, AI-ready information</h3>
-      <p>Your content becomes AI-suitable from a suitable form: structured, governed, secure. Every piece of content becomes a durable AI asset. No extra budget required to start.</p>
-    </div>
-    <div class="approach-col">
-      <div class="col-number">03 — ECONOMICS</div>
-      <h3>Predictable economics</h3>
-      <p>Your existing maintenance investment funds the transition. No extra budget required to start.</p>
+    <div class="accent-rule"></div>
+    <p class="body-text" style="max-width:680px;">ACTIVATE with OpenText provides a structured path to modernize your environment without disrupting existing operations. It focuses on improving how your information is governed, integrated, and used — so it can support automation, AI, and ongoing change.</p>
+    <div class="approach-cols">
+      <div class="approach-col">
+        <div class="approach-label">01 — Never upgrade again</div>
+        <h3>Never upgrade again</h3>
+        <p>Eliminate disruptive upgrade cycles and move to a continuous cloud release cadence. All innovation for your segments and technology is continuously leveraged.</p>
+      </div>
+      <div class="approach-col">
+        <div class="approach-label">02 — Trusted AI</div>
+        <h3>Trusted, AI-ready information</h3>
+        <p>Your content becomes AI-suitable: structured, governed, and secure. Every piece of content becomes a durable AI asset. No extra budget required to start.</p>
+      </div>
+      <div class="approach-col">
+        <div class="approach-label">03 — Economics</div>
+        <h3>Predictable economics</h3>
+        <p>Your existing maintenance investment funds the transition. No extra budget required to start — just redirect what you are already spending.</p>
+      </div>
     </div>
   </div>
 </section>
-<div class="blue-divider"></div>
+<div class="rule-blue"></div>
 
 <!-- HOW YOU GET THERE -->
-<section class="howto">
-  <div class="section-head">
-    <span class="section-label">BENEFITS</span>
+<section class="bg-light">
+  <div class="container">
+    <span class="section-label">Benefits</span>
     <h2>How you get there, without the pain</h2>
-    <div class="accent-line" style="margin-bottom:16px;"></div>
-    <p class="section-intro">Optional Section description - max 256 char. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-  </div>
-  <div class="howto-grid">
-    <div class="howto-card">
-      <div class="howto-icon">📊</div>
-      <h3>Economic certainty</h3>
-      <p>Your existing maintenance investment programs the transition. Costs are instead upfront, accumulation after the fact.</p>
-    </div>
-    <div class="howto-card">
-      <div class="howto-icon">✅</div>
-      <h3>Protected integrations</h3>
-      <p>A progressive API model with verified patterns to join, between 200 and 400+ cross-remaining integrations intact throughout, keeping your data and operations effective.</p>
-    </div>
-    <div class="howto-card">
-      <div class="howto-icon">🏛️</div>
-      <h3>AI governance baseline</h3>
-      <p>Security, permissions, and audit ready from day one. Access and security are in place before AI is in scope. Compliance is in baseline before the function.</p>
-    </div>
-    <div class="howto-card">
-      <div class="howto-icon">💡</div>
-      <h3>Innovation access</h3>
-      <p>ACTIVATE is designed for ongoing cloud pace and delivers cloud-first thinking. Keeping pace is the default. Moving pace is its own.</p>
-    </div>
-  </div>
-</section>
-<div class="blue-divider"></div>
+    <div class="accent-rule"></div>
+    <p class="body-text" style="max-width:640px;">A proven path that preserves what works, modernizes what doesn't, and positions your organization to move at the pace of AI — continuously.</p>
+    <div class="howto-grid">
 
-<!-- WHERE ACTIVATE YOUR INFORMATION -->
-<section class="where">
-  <div class="section-head">
-    <span class="section-label">USE CASES</span>
-    <h2>Where will you activate your information?</h2>
-    <div class="accent-line" style="margin-bottom:16px;"></div>
-  </div>
-  <p class="where-sub">Apply the solution across your environment.</p>
-  <div class="where-cards">
-    <div class="where-card">
-      <div class="where-card-img blue">
-        <span class="tag">ECM / ERAS / ETO</span>
-        <span style="font-size:48px;">🌐</span>
+      <div class="howto-card">
+        <div class="howto-card-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="white" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h3>Economic certainty</h3>
+        <p>Your existing maintenance investment programs the transition. Costs are upfront and predictable, not accumulating after the fact.</p>
       </div>
-      <div class="where-card-body">
-        <h3>Activate your content</h3>
-        <p>OpenText Content Management (Extended ECM, Content Server, or Documentum)</p>
-        <a class="learn-more" href="#">Learn more →</a>
+
+      <div class="howto-card">
+        <div class="howto-card-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="white" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+        </div>
+        <h3>Protected integrations</h3>
+        <p>A progressive API model with verified patterns keeps 400+ cross-remaining integrations intact throughout, keeping your data and operations effective.</p>
       </div>
+
+      <div class="howto-card">
+        <div class="howto-card-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="white" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>AI governance baseline</h3>
+        <p>Security, permissions, and audit-readiness from day one. Access and security controls are in place before AI is in scope — compliance is built into the baseline.</p>
+      </div>
+
+      <div class="howto-card">
+        <div class="howto-card-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="white" stroke-linecap="round" stroke-linejoin="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <h3>Innovation access</h3>
+        <p>ACTIVATE is designed for ongoing cloud pace and delivers cloud-first thinking. Keeping pace becomes the default, not an exceptional effort.</p>
+      </div>
+
     </div>
-    <div class="where-card">
-      <div class="where-card-img orange">
-        <span class="tag">FIN / I-2-P / PROCURE</span>
-        <span style="font-size:48px;">👥</span>
-      </div>
-      <div class="where-card-body">
-        <h3>Activate your customer communications</h3>
-        <p>OpenText CCM (Communications Management, StreamServe, or Exstream)</p>
-        <a class="learn-more" href="#">Learn more →</a>
-      </div>
-    </div>
-    <div class="where-card">
-      <div class="where-card-img teal">
-        <span class="tag">FAX / eFAX / FaxPro2</span>
-        <span style="font-size:48px;">☁️</span>
-      </div>
-      <div class="where-card-body">
-        <h3>Activate your cloud fax infrastructure</h3>
-        <p>OpenText RightFax, XMFax, FaxCloud</p>
-        <a class="learn-more" href="#">Learn more →</a>
-      </div>
-    </div>
-  </div>
-  <div class="where-cta">
-    <button class="btn-teal">Speak with an ACTIVATE expert</button>
   </div>
 </section>
-<div class="blue-divider"></div>
+<div class="rule-blue"></div>
+
+<!-- WHERE ACTIVATE -->
+<section class="bg-white">
+  <div class="container">
+    <span class="section-label">Use Cases</span>
+    <h2>Where will you activate your information?</h2>
+    <div class="accent-rule"></div>
+    <p class="body-text" style="max-width:640px; margin-bottom: var(--space-6);">Apply the solution across your environment.</p>
+    <div class="where-cards">
+
+      <div class="where-card">
+        <div class="where-card-media navy">
+          <span class="where-card-tag">ECM / ERAS / ETO</span>
+        </div>
+        <div class="where-card-body">
+          <h3>Activate your content</h3>
+          <p>OpenText Content Management (Extended ECM, Content Server, or Documentum)</p>
+          <a class="link-arrow" href="#">Learn more</a>
+        </div>
+      </div>
+
+      <div class="where-card">
+        <div class="where-card-media amber">
+          <span class="where-card-tag">FIN / I-2-P / PROCURE</span>
+        </div>
+        <div class="where-card-body">
+          <h3>Activate your customer communications</h3>
+          <p>OpenText CCM (Communications Management, StreamServe, or Exstream)</p>
+          <a class="link-arrow" href="#">Learn more</a>
+        </div>
+      </div>
+
+      <div class="where-card">
+        <div class="where-card-media teal">
+          <span class="where-card-tag">FAX / eFAX / FaxPro2</span>
+        </div>
+        <div class="where-card-body">
+          <h3>Activate your cloud fax infrastructure</h3>
+          <p>OpenText RightFax, XMFax, FaxCloud</p>
+          <a class="link-arrow" href="#">Learn more</a>
+        </div>
+      </div>
+
+    </div>
+    <div class="where-cta">
+      <button class="btn-teal">Speak with an ACTIVATE expert</button>
+    </div>
+  </div>
+</section>
+<div class="rule-blue"></div>
 
 <!-- FAQ -->
-<section class="faq">
-  <div class="section-head">
+<section class="bg-light">
+  <div class="container" style="max-width: 900px;">
     <span class="section-label">FAQ</span>
     <h2>Answer common modernization questions</h2>
-    <div class="accent-line" style="margin-bottom:0;"></div>
-  </div>
-  <div class="faq-list">
-    <div class="faq-item open">
-      <button class="faq-question">
-        Will this disrupt our operations or break existing integrations?
-        <span class="icon">+</span>
-      </button>
-      <div class="faq-answer">
-        <p>No. ACTIVATE with OpenText uses a phased approach where core environments are not impacted and you're not cut over. The integration framework has been validated. Our configuration, workflows, and integrations stay in place throughout migration. We help options give you options and ensure that your data, your teams, and your timeline are protected.</p>
+    <div class="accent-rule"></div>
+    <div class="faq-list">
+
+      <div class="faq-item open">
+        <button class="faq-question">
+          Will this disrupt our operations or break existing integrations?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>No. ACTIVATE with OpenText uses a phased approach where core environments are not impacted. The integration framework has been validated and our configuration, workflows, and integrations stay in place throughout migration. Your data, your teams, and your timeline are protected.</p>
+        </div>
       </div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-question">
-        Do we need to replace our current platform to modernize?
-        <span class="icon">+</span>
-      </button>
-      <div class="faq-answer">
-        <p>Not necessarily. ACTIVATE is designed to work with your existing OpenText investments and provides a structured path forward that preserves what's working while modernizing what needs to change.</p>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Do we need to replace our current platform to modernize?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Not necessarily. ACTIVATE is designed to work with your existing OpenText investments and provides a structured path forward that preserves what's working while modernizing what needs to change.</p>
+        </div>
       </div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-question">
-        Why does timing matter — why not wait until we're ready?
-        <span class="icon">+</span>
-      </button>
-      <div class="faq-answer">
-        <p>Every quarter of delay compounds technical debt and widens the gap between your environment and AI readiness. Organizations that modernize now gain a compounding advantage in automation and AI capability.</p>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Why does timing matter — why not wait until we're ready?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Every quarter of delay compounds technical debt and widens the gap between your environment and AI readiness. Organizations that modernize now gain a compounding advantage in automation and AI capability.</p>
+        </div>
       </div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-question">
-        We don't know where to start. What does the first step look like?
-        <span class="icon">+</span>
-      </button>
-      <div class="faq-answer">
-        <p>Start with an AI Readiness Assessment. Our team maps your current environment and produces a prioritized roadmap with clear milestones, risk mitigation, and expected outcomes.</p>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          We don't know where to start. What does the first step look like?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Start with an AI Readiness Assessment. Our team maps your current environment and produces a prioritized roadmap with clear milestones, risk mitigation, and expected outcomes.</p>
+        </div>
       </div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-question">
-        How is this funded? We don't have budget for a new initiative.
-        <span class="icon">+</span>
-      </button>
-      <div class="faq-answer">
-        <p>ACTIVATE is funded by redirecting your existing maintenance spend. You're likely already paying for the foundation — ACTIVATE converts that investment into forward momentum rather than standing still.</p>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          How is this funded? We don't have budget for a new initiative.
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>ACTIVATE is funded by redirecting your existing maintenance spend. You're likely already paying for the foundation — ACTIVATE converts that investment into forward momentum rather than standing still.</p>
+        </div>
       </div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-question">
-        How long does a typical modernization take?
-        <span class="icon">+</span>
-      </button>
-      <div class="faq-answer">
-        <p>Timelines vary by environment complexity, but most organizations see meaningful milestones within 90 days of starting. Full modernization typically occurs in phases over 12–24 months, with benefits realized throughout.</p>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          How long does a typical modernization take?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Timelines vary by environment complexity, but most organizations see meaningful milestones within 90 days of starting. Full modernization typically occurs in phases over 12–24 months, with benefits realized throughout.</p>
+        </div>
       </div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-question">
-        How is this different from a standard migration?
-        <span class="icon">+</span>
-      </button>
-      <div class="faq-answer">
-        <p>Standard migrations focus on moving data. ACTIVATE focuses on transforming how your information works — making it governed, AI-ready, and continuously current — not just relocated.</p>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          How is this different from a standard migration?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Standard migrations focus on moving data. ACTIVATE focuses on transforming how your information works — making it governed, AI-ready, and continuously current — not just relocated.</p>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
-<div class="blue-divider"></div>
+<div class="rule-blue"></div>
 
 <!-- FOOTER NAV -->
-<div class="footer-nav">
-  <div class="footer-cols">
-    <div class="footer-col">
-      <h4>Heading Link</h4>
-      <ul>
-        <li><a href="#">Link 01</a></li>
-        <li><a href="#">Link 02</a></li>
-        <li><a href="#">Link 03</a></li>
-        <li><a href="#">Link 04</a></li>
-        <li><a href="#">Link 05</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Heading Link</h4>
-      <ul>
-        <li><a href="#">Link 01</a></li>
-        <li><a href="#">Link 02</a></li>
-        <li><a href="#">Link 03</a></li>
-        <li><a href="#">Link 04</a></li>
-        <li><a href="#">Link 05</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Heading Link</h4>
-      <ul>
-        <li><a href="#">Link 01</a></li>
-        <li><a href="#">Link 02</a></li>
-        <li><a href="#">Link 03</a></li>
-        <li><a href="#">Link 04</a></li>
-        <li><a href="#">Link 05</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Heading Link</h4>
-      <ul>
-        <li><a href="#">Link 01</a></li>
-        <li><a href="#">Link 02</a></li>
-        <li><a href="#">Link 03</a></li>
-        <li><a href="#">Link 04</a></li>
-        <li><a href="#">Link 05</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Heading Link</h4>
-      <ul>
-        <li><a href="#">Link 01</a></li>
-        <li><a href="#">Link 02</a></li>
-        <li><a href="#">Link 03</a></li>
-        <li><a href="#">Link 04</a></li>
-        <li><a href="#">Link 05</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Heading Link</h4>
-      <ul>
-        <li><a href="#">Link 01</a></li>
-        <li><a href="#">Link 02</a></li>
-        <li><a href="#">Link 03</a></li>
-        <li><a href="#">Link 04</a></li>
-        <li><a href="#">Link 05</a></li>
-      </ul>
+<footer class="footer-nav">
+  <div class="container">
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="#">Content Cloud</a></li>
+          <li><a href="#">Business Network</a></li>
+          <li><a href="#">Experience Cloud</a></li>
+          <li><a href="#">Security Cloud</a></li>
+          <li><a href="#">Developer Cloud</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Solutions</h4>
+        <ul>
+          <li><a href="#">Financial Services</a></li>
+          <li><a href="#">Healthcare</a></li>
+          <li><a href="#">Manufacturing</a></li>
+          <li><a href="#">Public Sector</a></li>
+          <li><a href="#">Legal</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#">Professional Services</a></li>
+          <li><a href="#">Managed Services</a></li>
+          <li><a href="#">Training</a></li>
+          <li><a href="#">Customer Success</a></li>
+          <li><a href="#">Support</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Partners</h4>
+        <ul>
+          <li><a href="#">Partner Program</a></li>
+          <li><a href="#">Find a Partner</a></li>
+          <li><a href="#">Become a Partner</a></li>
+          <li><a href="#">Developer Portal</a></li>
+          <li><a href="#">Marketplace</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About OpenText</a></li>
+          <li><a href="#">Leadership</a></li>
+          <li><a href="#">Newsroom</a></li>
+          <li><a href="#">Investors</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Webinars</a></li>
+          <li><a href="#">Case Studies</a></li>
+          <li><a href="#">White Papers</a></li>
+          <li><a href="#">Events</a></li>
+        </ul>
+      </div>
     </div>
   </div>
-</div>
+</footer>
 
 <!-- FOOTER BOTTOM -->
 <div class="footer-bottom">
-  <span>+1 800 499 6544</span>
-  <div>
+  <div class="footer-bottom-inner">
     <span>© 2025 Open Text Corporation. All rights reserved.</span>
-    <a href="#">Privacy</a>
-    <a href="#">Legal</a>
-    <a href="#">Accessibility</a>
-    <a href="#">Sitemap</a>
-    <a href="#">Cookie Settings</a>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy</a>
+      <a href="#">Legal</a>
+      <a href="#">Accessibility</a>
+      <a href="#">Sitemap</a>
+      <a href="#">Cookie Settings</a>
+    </div>
   </div>
 </div>
 
