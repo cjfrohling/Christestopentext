@@ -1867,8 +1867,11 @@ subNavLinks.forEach(a => {
     e.preventDefault();
     const target = document.getElementById(a.dataset.target);
     if (!target) return;
-    const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) + 40 + 12;
-    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+    /* scroll to the parent section so the heading is visible */
+    const section = target.closest('section') || target;
+    const navH   = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'));
+    const offset  = navH + 40 + 16; /* main nav + sub-nav + breathing room */
+    const top     = section.getBoundingClientRect().top + window.scrollY - offset;
     window.scrollTo({ top, behavior: 'smooth' });
   });
 });
