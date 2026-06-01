@@ -27,21 +27,322 @@ body { font-family: var(--font); font-size: 16px; font-weight: 300; line-height:
 .wrap { max-width: 1180px; margin: 0 auto; padding: 0 40px; }
 
 /* ── MAIN NAV ── */
-.main-nav { background: var(--white); border-bottom: 1px solid var(--border); height: 52px; position: sticky; top: 0; z-index: 200; }
-.main-nav-inner { max-width: 1440px; margin: 0 auto; padding: 0 32px; height: 100%; display: flex; align-items: center; justify-content: space-between; }
-.logo { font-size: 16px; font-weight: 800; color: var(--navy); text-decoration: none; letter-spacing: -.3px; flex-shrink: 0; }
+.main-nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 300;
+}
+.main-nav-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--navy);
+  text-decoration: none;
+  letter-spacing: -.3px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
 .logo em { font-style: normal; color: var(--blue); }
 .logo sup { font-size: 7px; font-weight: 400; vertical-align: super; }
-.main-links { display: flex; gap: 22px; list-style: none; }
-.main-links a { font-size: 13px; font-weight: 500; color: var(--body); text-decoration: none; white-space: nowrap; }
-.main-links a:hover { color: var(--blue); }
-.nav-actions { display: flex; align-items: center; gap: 12px; }
-.icon-btn { background: none; border: none; cursor: pointer; color: var(--body); padding: 4px; display: flex; align-items: center; }
-.connect-btn { background: var(--blue); color: var(--white); border: none; border-radius: 3px; padding: 7px 15px; font-family: var(--font); font-size: 13px; font-weight: 600; cursor: pointer; }
+
+/* Nav items */
+.main-links {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  list-style: none;
+  height: 60px;
+}
+.main-links > li {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.nav-item-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--body);
+  padding: 0 14px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color .15s, border-color .15s;
+}
+.nav-item-btn:hover,
+.main-links > li.open .nav-item-btn {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+}
+.nav-item-btn .chevron {
+  width: 10px;
+  height: 10px;
+  stroke: currentColor;
+  fill: none;
+  transition: transform .2s;
+  flex-shrink: 0;
+}
+.main-links > li.open .nav-item-btn .chevron {
+  transform: rotate(180deg);
+}
+
+/* Nav actions */
+.nav-actions { display: flex; align-items: center; gap: 8px; }
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--body);
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: background .15s, color .15s;
+}
+.icon-btn:hover { background: var(--light); color: var(--blue); }
+.icon-btn.active { color: var(--blue); background: var(--light); }
+.connect-btn {
+  background: var(--blue);
+  color: var(--white);
+  border: none;
+  border-radius: 3px;
+  padding: 8px 18px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s;
+}
 .connect-btn:hover { background: var(--blue-d); }
 
+/* ── MEGA DROPDOWN ── */
+.mega-panel {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: var(--white);
+  border-top: 2px solid var(--blue);
+  box-shadow: 0 12px 40px rgba(16,28,47,.12);
+  z-index: 299;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity .2s ease, transform .2s ease;
+}
+.mega-panel.visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+.mega-panel-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 40px 32px 48px;
+  display: grid;
+  gap: 0 48px;
+}
+/* Column count variants */
+.mega-panel-inner.cols-4 { grid-template-columns: repeat(4, 1fr); }
+.mega-panel-inner.cols-3 { grid-template-columns: 2fr repeat(3, 1fr); }
+.mega-panel-inner.cols-2 { grid-template-columns: 1fr 1fr; }
+
+.mega-col-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.mega-col ul { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.mega-col ul a {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--body);
+  text-decoration: none;
+  padding: 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 3px;
+  transition: color .12s;
+}
+.mega-col ul a:hover { color: var(--blue); }
+.mega-col ul a .link-arrow {
+  opacity: 0;
+  transition: opacity .12s, transform .12s;
+  font-size: 11px;
+}
+.mega-col ul a:hover .link-arrow { opacity: 1; transform: translateX(2px); }
+
+/* Featured promo tile in panel */
+.mega-promo {
+  background: var(--navy);
+  border-radius: 6px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mega-promo-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.6);
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 3px;
+  padding: 2px 8px;
+  width: fit-content;
+}
+.mega-promo h4 {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #fff;
+}
+.mega-promo p {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(255,255,255,.65);
+}
+.mega-promo a {
+  font-size: 13px;
+  font-weight: 600;
+  color: #5ab4ff;
+  text-decoration: none;
+  margin-top: auto;
+}
+.mega-promo a:hover { text-decoration: underline; }
+
+/* Overlay backdrop */
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  top: 60px;
+  background: rgba(16,28,47,.35);
+  z-index: 298;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+.nav-backdrop.visible { opacity: 1; pointer-events: all; }
+
+/* Search overlay */
+.search-overlay {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: var(--white);
+  border-top: 2px solid var(--blue);
+  box-shadow: 0 12px 40px rgba(16,28,47,.12);
+  z-index: 299;
+  padding: 32px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity .2s ease, transform .2s ease;
+}
+.search-overlay.visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+.search-overlay-inner { max-width: 800px; margin: 0 auto; }
+.search-overlay label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 12px;
+}
+.search-row {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color .15s;
+}
+.search-row:focus-within { border-color: var(--blue); }
+.search-row input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--head);
+  padding: 12px 16px;
+  background: transparent;
+}
+.search-row button {
+  background: var(--blue);
+  border: none;
+  cursor: pointer;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  transition: background .15s;
+}
+.search-row button:hover { background: var(--blue-d); }
+.search-suggest {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.search-suggest span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--body);
+  opacity: .5;
+  margin-right: 4px;
+}
+.search-suggest a {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--blue);
+  text-decoration: none;
+  background: rgba(0,102,204,.07);
+  border-radius: 100px;
+  padding: 3px 10px;
+}
+.search-suggest a:hover { background: rgba(0,102,204,.14); }
+
 /* ── SUB NAV ── */
-.sub-nav { background: var(--white); border-bottom: 1px solid var(--border); height: 40px; position: sticky; top: 52px; z-index: 199; }
+.sub-nav { background: var(--white); border-bottom: 1px solid var(--border); height: 40px; position: sticky; top: 60px; z-index: 199; }
 .sub-nav-inner { max-width: 1440px; margin: 0 auto; padding: 0 32px; height: 100%; display: flex; align-items: center; gap: 0; }
 .sub-nav-brand { font-size: 12px; font-weight: 800; color: var(--navy); letter-spacing: 1px; text-transform: uppercase; padding-right: 20px; border-right: 1px solid var(--border); margin-right: 4px; }
 .sub-nav-links { display: flex; align-items: center; gap: 0; }
@@ -249,32 +550,346 @@ body { font-family: var(--font); font-size: 16px; font-weight: 300; line-height:
 </head>
 <body>
 
+<!-- NAV BACKDROP -->
+<div class="nav-backdrop" id="navBackdrop"></div>
+
 <!-- MAIN NAV -->
-<header class="main-nav">
+<header class="main-nav" id="mainNav">
   <div class="main-nav-inner">
-    <div style="display:flex;align-items:center;gap:28px;">
-      <a class="logo" href="#">open<em>text</em><sup>™</sup></a>
-      <ul class="main-links">
-        <li><a href="#">Why OpenText</a></li>
-        <li><a href="#">Products</a></li>
-        <li><a href="#">Solutions</a></li>
-        <li><a href="#">Services</a></li>
-        <li><a href="#">Partners</a></li>
-        <li><a href="#">Support</a></li>
-        <li><a href="#">Resources</a></li>
+    <div style="display:flex;align-items:center;gap:0;">
+      <a class="logo" href="#" style="margin-right:32px;">open<em>text</em><sup>™</sup></a>
+      <ul class="main-links" id="mainLinks">
+        <li data-panel="why">
+          <button class="nav-item-btn" aria-expanded="false" aria-haspopup="true">
+            Why OpenText
+            <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg>
+          </button>
+        </li>
+        <li data-panel="products">
+          <button class="nav-item-btn" aria-expanded="false" aria-haspopup="true">
+            Products
+            <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg>
+          </button>
+        </li>
+        <li data-panel="solutions">
+          <button class="nav-item-btn" aria-expanded="false" aria-haspopup="true">
+            Solutions
+            <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg>
+          </button>
+        </li>
+        <li data-panel="services">
+          <button class="nav-item-btn" aria-expanded="false" aria-haspopup="true">
+            Services
+            <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg>
+          </button>
+        </li>
+        <li data-panel="partners">
+          <button class="nav-item-btn" aria-expanded="false" aria-haspopup="true">
+            Partners
+            <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg>
+          </button>
+        </li>
+        <li data-panel="support">
+          <button class="nav-item-btn" aria-expanded="false" aria-haspopup="true">
+            Support
+            <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg>
+          </button>
+        </li>
+        <li data-panel="resources">
+          <button class="nav-item-btn" aria-expanded="false" aria-haspopup="true">
+            Resources
+            <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg>
+          </button>
+        </li>
       </ul>
     </div>
     <div class="nav-actions">
-      <button class="icon-btn" aria-label="Search">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <button class="icon-btn" id="searchToggle" aria-label="Search" aria-expanded="false">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       </button>
-      <button class="icon-btn" aria-label="Settings">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <button class="icon-btn" aria-label="Globe / Region">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
       </button>
       <button class="connect-btn">Connect</button>
     </div>
   </div>
 </header>
+
+<!-- MEGA PANELS -->
+
+<!-- Why OpenText -->
+<div class="mega-panel" id="panel-why" role="region" aria-label="Why OpenText">
+  <div class="mega-panel-inner cols-4">
+    <div class="mega-col">
+      <p class="mega-col-label">Our Story</p>
+      <ul>
+        <li><a href="#">Company Overview <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Leadership <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Innovation & AI <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Corporate Responsibility <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Investor Relations <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Newsroom <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Customer Success</p>
+      <ul>
+        <li><a href="#">Customer Stories <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Analyst Recognition <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Awards & Accolades <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Responsibility</p>
+      <ul>
+        <li><a href="#">Sustainability <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Ethics & Compliance <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Diversity & Inclusion <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Community <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-promo">
+      <span class="mega-promo-tag">Featured</span>
+      <h4>The Agentic AI Genome</h4>
+      <p>Discover how AI agents transform enterprise information into a strategic advantage.</p>
+      <a href="#">Read the report →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Products -->
+<div class="mega-panel" id="panel-products" role="region" aria-label="Products">
+  <div class="mega-panel-inner cols-4">
+    <div class="mega-col">
+      <p class="mega-col-label">Content Management</p>
+      <ul>
+        <li><a href="#">Extended ECM <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Content Server <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Documentum <span class="link-arrow">→</span></a></li>
+        <li><a href="#">OpenText Core <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Livelink <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Business Network</p>
+      <ul>
+        <li><a href="#">Trading Grid <span class="link-arrow">→</span></a></li>
+        <li><a href="#">B2B Integration <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Exstream / CCM <span class="link-arrow">→</span></a></li>
+        <li><a href="#">RightFax <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Security & Analytics</p>
+      <ul>
+        <li><a href="#">Fortify <span class="link-arrow">→</span></a></li>
+        <li><a href="#">EnCase <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Magellan Analytics <span class="link-arrow">→</span></a></li>
+        <li><a href="#">IDOL <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-promo">
+      <span class="mega-promo-tag">ACTIVATE</span>
+      <h4>Find your product path</h4>
+      <p>Answer a few questions to discover the right modernization path for your environment.</p>
+      <a href="#">Find your product →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Solutions -->
+<div class="mega-panel" id="panel-solutions" role="region" aria-label="Solutions">
+  <div class="mega-panel-inner cols-4">
+    <div class="mega-col">
+      <p class="mega-col-label">By Industry</p>
+      <ul>
+        <li><a href="#">Financial Services <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Healthcare & Life Sciences <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Government & Public Sector <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Manufacturing <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Energy & Utilities <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Retail & CPG <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">By Business Need</p>
+      <ul>
+        <li><a href="#">AI Readiness <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Cloud Migration <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Compliance & Governance <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Digital Transformation <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Intelligent Automation <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">By Technology</p>
+      <ul>
+        <li><a href="#">SAP Integration <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Salesforce Integration <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Microsoft 365 <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Google Workspace <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-promo">
+      <span class="mega-promo-tag">AI Era</span>
+      <h4>Solutions for the agentic enterprise</h4>
+      <p>Prepare your information infrastructure for AI agents that act autonomously.</p>
+      <a href="#">Explore AI solutions →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Services -->
+<div class="mega-panel" id="panel-services" role="region" aria-label="Services">
+  <div class="mega-panel-inner cols-3">
+    <div class="mega-promo">
+      <span class="mega-promo-tag">ACTIVATE</span>
+      <h4>Start your AI Readiness Assessment</h4>
+      <p>Map your current environment and get a prioritized modernization roadmap with clear milestones.</p>
+      <a href="#">Book a consultation →</a>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Professional Services</p>
+      <ul>
+        <li><a href="#">Implementation <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Migration Services <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Managed Services <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Training & Adoption <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Customer Success</p>
+      <ul>
+        <li><a href="#">Success Plans <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Technical Account Management <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Premium Support <span class="link-arrow">→</span></a></li>
+        <li><a href="#">OpenText University <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Partners -->
+<div class="mega-panel" id="panel-partners" role="region" aria-label="Partners">
+  <div class="mega-panel-inner cols-3">
+    <div class="mega-promo">
+      <span class="mega-promo-tag">Partner Network</span>
+      <h4>Build with OpenText</h4>
+      <p>Join a global ecosystem of system integrators, resellers, and technology partners.</p>
+      <a href="#">Become a partner →</a>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Partner Types</p>
+      <ul>
+        <li><a href="#">System Integrators <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Value-Added Resellers <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Technology Partners <span class="link-arrow">→</span></a></li>
+        <li><a href="#">OEM Partners <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Resources</p>
+      <ul>
+        <li><a href="#">Partner Portal <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Partner Locator <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Certification Program <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Developer Hub <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Support -->
+<div class="mega-panel" id="panel-support" role="region" aria-label="Support">
+  <div class="mega-panel-inner cols-3">
+    <div class="mega-col">
+      <p class="mega-col-label">Get Help</p>
+      <ul>
+        <li><a href="#">Knowledge Base <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Community Forums <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Submit a Ticket <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Product Documentation <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Download Center <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Learning</p>
+      <ul>
+        <li><a href="#">OpenText University <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Certification Exams <span class="link-arrow">→</span></a></li>
+        <li><a href="#">On-Demand Training <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Live Webinars <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-promo">
+      <span class="mega-promo-tag">24/7 Support</span>
+      <h4>Need immediate help?</h4>
+      <p>Our support team is available around the clock for critical issues.</p>
+      <a href="#">Contact Support →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Resources -->
+<div class="mega-panel" id="panel-resources" role="region" aria-label="Resources">
+  <div class="mega-panel-inner cols-4">
+    <div class="mega-col">
+      <p class="mega-col-label">Learn</p>
+      <ul>
+        <li><a href="#">Blog <span class="link-arrow">→</span></a></li>
+        <li><a href="#">White Papers <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Analyst Reports <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Case Studies <span class="link-arrow">→</span></a></li>
+        <li><a href="#">eBooks <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Watch & Listen</p>
+      <ul>
+        <li><a href="#">Webinars <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Video Library <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Podcasts <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Events <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Developers</p>
+      <ul>
+        <li><a href="#">Developer Hub <span class="link-arrow">→</span></a></li>
+        <li><a href="#">API Reference <span class="link-arrow">→</span></a></li>
+        <li><a href="#">SDKs & Tools <span class="link-arrow">→</span></a></li>
+        <li><a href="#">GitHub <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-promo">
+      <span class="mega-promo-tag">New Report</span>
+      <h4>2025 State of Information Management</h4>
+      <p>Key findings on how enterprises are preparing for the AI agent era.</p>
+      <a href="#">Download free →</a>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay" role="search">
+  <div class="search-overlay-inner">
+    <label for="globalSearch">Search OpenText</label>
+    <div class="search-row">
+      <input type="search" id="globalSearch" placeholder="Search products, solutions, resources…" autocomplete="off">
+      <button aria-label="Submit search">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+    </div>
+    <div class="search-suggest">
+      <span>Trending:</span>
+      <a href="#">ACTIVATE</a>
+      <a href="#">Extended ECM</a>
+      <a href="#">AI Readiness</a>
+      <a href="#">RightFax</a>
+      <a href="#">Exstream</a>
+    </div>
+  </div>
+</div>
 
 <!-- SUB NAV -->
 <nav class="sub-nav">
@@ -618,6 +1233,7 @@ body { font-family: var(--font); font-size: 16px; font-weight: 300; line-height:
 </div>
 
 <script>
+  /* ── FAQ ── */
   document.querySelectorAll('.faq-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.closest('.faq-item');
@@ -625,6 +1241,122 @@ body { font-family: var(--font); font-size: 16px; font-weight: 300; line-height:
       document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
       if (!isOpen) item.classList.add('open');
     });
+  });
+
+  /* ── MEGA NAV ── */
+  const backdrop   = document.getElementById('navBackdrop');
+  const navItems   = document.querySelectorAll('#mainLinks > li[data-panel]');
+  const searchBtn  = document.getElementById('searchToggle');
+  const searchOverlay = document.getElementById('searchOverlay');
+  let activePanel  = null;
+  let searchOpen   = false;
+  let closeTimer   = null;
+
+  function openPanel(panelId) {
+    cancelClose();
+    closeSearch();
+
+    if (activePanel === panelId) return;
+    closeAllPanels(false);
+
+    const panel = document.getElementById('panel-' + panelId);
+    if (!panel) return;
+
+    activePanel = panelId;
+    panel.classList.add('visible');
+    backdrop.classList.add('visible');
+
+    navItems.forEach(li => {
+      const btn = li.querySelector('.nav-item-btn');
+      if (li.dataset.panel === panelId) {
+        li.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  }
+
+  function scheduleClose() {
+    closeTimer = setTimeout(() => closeAllPanels(true), 120);
+  }
+
+  function cancelClose() {
+    clearTimeout(closeTimer);
+  }
+
+  function closeAllPanels(clearActive) {
+    document.querySelectorAll('.mega-panel.visible').forEach(p => p.classList.remove('visible'));
+    navItems.forEach(li => {
+      li.classList.remove('open');
+      li.querySelector('.nav-item-btn').setAttribute('aria-expanded', 'false');
+    });
+    backdrop.classList.remove('visible');
+    if (clearActive) activePanel = null;
+  }
+
+  function openSearch() {
+    closeAllPanels(true);
+    searchOpen = true;
+    searchOverlay.classList.add('visible');
+    backdrop.classList.add('visible');
+    searchBtn.classList.add('active');
+    searchBtn.setAttribute('aria-expanded', 'true');
+    setTimeout(() => document.getElementById('globalSearch').focus(), 50);
+  }
+
+  function closeSearch() {
+    if (!searchOpen) return;
+    searchOpen = false;
+    searchOverlay.classList.remove('visible');
+    backdrop.classList.remove('visible');
+    searchBtn.classList.remove('active');
+    searchBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  /* Nav item hover / click */
+  navItems.forEach(li => {
+    const btn = li.querySelector('.nav-item-btn');
+
+    li.addEventListener('mouseenter', () => openPanel(li.dataset.panel));
+    li.addEventListener('mouseleave', scheduleClose);
+
+    btn.addEventListener('click', () => {
+      if (activePanel === li.dataset.panel) {
+        closeAllPanels(true);
+      } else {
+        openPanel(li.dataset.panel);
+      }
+    });
+  });
+
+  /* Keep open while hovering the panel itself */
+  document.querySelectorAll('.mega-panel').forEach(panel => {
+    panel.addEventListener('mouseenter', cancelClose);
+    panel.addEventListener('mouseleave', scheduleClose);
+  });
+
+  /* Search toggle */
+  searchBtn.addEventListener('click', () => {
+    if (searchOpen) closeSearch(); else openSearch();
+  });
+
+  /* Keep search open while hovering */
+  searchOverlay.addEventListener('mouseenter', cancelClose);
+  searchOverlay.addEventListener('mouseleave', () => {
+    if (searchOpen) scheduleClose();
+  });
+
+  /* Backdrop click closes everything */
+  backdrop.addEventListener('click', () => {
+    closeAllPanels(true);
+    closeSearch();
+  });
+
+  /* Escape key */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeAllPanels(true);
+      closeSearch();
+    }
   });
 </script>
 </body>
