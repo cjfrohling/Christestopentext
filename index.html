@@ -149,6 +149,107 @@ body { font-family: var(--font); font-size: 16px; font-weight: 300; line-height:
 .connect-btn:hover { background: var(--blue-d); }
 .connect-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 
+/* ── LANGUAGE SWITCHER ── */
+.lang-wrapper {
+  position: relative;
+}
+.lang-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 340px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--blue);
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 8px 32px rgba(16,28,47,.13);
+  z-index: 400;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity .18s ease, transform .18s ease;
+}
+.lang-panel.visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+.lang-panel-header {
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.lang-panel-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+.lang-panel-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--body);
+  padding: 2px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  transition: color .12s;
+}
+.lang-panel-close:hover { color: var(--blue); }
+.lang-panel-close:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+.lang-region {
+  padding: 12px 16px 4px;
+}
+.lang-region-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--body);
+  opacity: .45;
+  margin-bottom: 6px;
+}
+.lang-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  margin-bottom: 8px;
+}
+.lang-opt {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 8px;
+  border-radius: 3px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--body);
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: var(--font);
+  text-align: left;
+  transition: background .12s, color .12s;
+}
+.lang-opt:hover { background: rgba(0,102,204,.06); color: var(--blue); }
+.lang-opt:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+.lang-opt.active { color: var(--blue); font-weight: 600; }
+.lang-opt .lang-check {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  stroke: var(--blue);
+  fill: none;
+  opacity: 0;
+}
+.lang-opt.active .lang-check { opacity: 1; }
+.lang-divider { height: 1px; background: var(--border); margin: 4px 16px; }
+
 /* Hamburger (mobile only) */
 .hamburger {
   display: none;
@@ -806,9 +907,105 @@ body { font-family: var(--font); font-size: 16px; font-weight: 300; line-height:
       <button class="icon-btn" id="searchToggle" aria-label="Search" aria-expanded="false">
         <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       </button>
-      <button class="icon-btn" aria-label="Globe / Region">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-      </button>
+      <div class="lang-wrapper">
+        <button class="icon-btn" id="langToggle" aria-label="Select language" aria-expanded="false" aria-haspopup="true">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </button>
+        <div class="lang-panel" id="langPanel" role="dialog" aria-label="Language and region selector">
+          <div class="lang-panel-header">
+            <span class="lang-panel-title">Language / Region</span>
+            <button class="lang-panel-close" id="langPanelClose" aria-label="Close language selector">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+
+          <div class="lang-region">
+            <p class="lang-region-label">Americas</p>
+            <div class="lang-grid">
+              <button class="lang-opt active" data-lang="en">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                English
+              </button>
+              <button class="lang-opt" data-lang="pt-br">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Português (Brasil)
+              </button>
+              <button class="lang-opt" data-lang="es">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Español
+              </button>
+              <button class="lang-opt" data-lang="fr-ca">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Français (Canada)
+              </button>
+            </div>
+          </div>
+
+          <div class="lang-divider"></div>
+
+          <div class="lang-region">
+            <p class="lang-region-label">Europe</p>
+            <div class="lang-grid">
+              <button class="lang-opt" data-lang="de">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Deutsch
+              </button>
+              <button class="lang-opt" data-lang="fr">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Français
+              </button>
+              <button class="lang-opt" data-lang="it">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Italiano
+              </button>
+              <button class="lang-opt" data-lang="nl">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Nederlands
+              </button>
+              <button class="lang-opt" data-lang="sv">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Svenska
+              </button>
+              <button class="lang-opt" data-lang="no">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Norsk
+              </button>
+              <button class="lang-opt" data-lang="da">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Dansk
+              </button>
+              <button class="lang-opt" data-lang="fi">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Suomi
+              </button>
+            </div>
+          </div>
+
+          <div class="lang-divider"></div>
+
+          <div class="lang-region" style="padding-bottom:16px;">
+            <p class="lang-region-label">Asia Pacific</p>
+            <div class="lang-grid">
+              <button class="lang-opt" data-lang="ja">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                日本語
+              </button>
+              <button class="lang-opt" data-lang="zh-cn">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                中文 (简体)
+              </button>
+              <button class="lang-opt" data-lang="zh-tw">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                中文 (繁體)
+              </button>
+              <button class="lang-opt" data-lang="ko">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                한국어
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       <button class="connect-btn desktop-only">Connect</button>
       <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobDrawer">
         <span></span><span></span><span></span>
@@ -1757,6 +1954,7 @@ searchOverlay.addEventListener('keydown', e => {
 /* global escape */
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
+    if (langOpen)    closeLang(true);
     if (activePanel) closeAllPanels(true, true);
     if (searchOpen)  closeSearch(true);
     if (mobOpen)     closeMob();
@@ -1860,6 +2058,83 @@ if (sectionEls.length) {
   });
   sectionEls.forEach(el => spyObserver.observe(el));
 }
+
+/* ═══════════════════════════════════════════════════
+   LANGUAGE SWITCHER
+═══════════════════════════════════════════════════ */
+const langToggle = document.getElementById('langToggle');
+const langPanel  = document.getElementById('langPanel');
+const langClose  = document.getElementById('langPanelClose');
+let langOpen     = false;
+
+function openLang() {
+  langOpen = true;
+  langPanel.classList.add('visible');
+  langToggle.classList.add('active');
+  langToggle.setAttribute('aria-expanded', 'true');
+  /* close mega panels / search if open */
+  closeAllPanels(true);
+  closeSearch();
+  setTimeout(() => langClose.focus(), 50);
+}
+
+function closeLang(returnFocus) {
+  if (!langOpen) return;
+  langOpen = false;
+  langPanel.classList.remove('visible');
+  langToggle.classList.remove('active');
+  langToggle.setAttribute('aria-expanded', 'false');
+  if (returnFocus) langToggle.focus();
+}
+
+langToggle.addEventListener('click', e => {
+  e.stopPropagation();
+  if (langOpen) closeLang(true); else openLang();
+});
+
+langClose.addEventListener('click', () => closeLang(true));
+
+/* clicking outside closes the panel */
+document.addEventListener('click', e => {
+  if (langOpen && !langPanel.closest('.lang-wrapper').contains(e.target)) closeLang();
+});
+
+/* keyboard trap + Escape */
+langPanel.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { e.preventDefault(); closeLang(true); return; }
+  if (e.key === 'Tab') {
+    const focusable = Array.from(langPanel.querySelectorAll('button:not([disabled])'));
+    const first = focusable[0], last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+  /* arrow keys navigate the language grid */
+  if (['ArrowDown','ArrowUp','ArrowLeft','ArrowRight'].includes(e.key)) {
+    e.preventDefault();
+    const opts = Array.from(langPanel.querySelectorAll('.lang-opt'));
+    const idx  = opts.indexOf(document.activeElement);
+    if (idx === -1) return;
+    const cols = 2;
+    let next = idx;
+    if (e.key === 'ArrowRight') next = idx + 1;
+    if (e.key === 'ArrowLeft')  next = idx - 1;
+    if (e.key === 'ArrowDown')  next = idx + cols;
+    if (e.key === 'ArrowUp')    next = idx - cols;
+    if (opts[next]) opts[next].focus();
+  }
+});
+
+/* language selection */
+document.querySelectorAll('.lang-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.lang-opt').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    /* update globe button aria-label to reflect chosen language */
+    const langName = btn.textContent.trim();
+    langToggle.setAttribute('aria-label', `Language: ${langName}`);
+    setTimeout(() => closeLang(true), 200);
+  });
+});
 
 /* smooth-scroll sub-nav links, account for sticky bars */
 subNavLinks.forEach(a => {
