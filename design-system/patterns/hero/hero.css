@@ -1,0 +1,39 @@
+/* Hero pattern */
+.hero {
+  background: var(--color-background-default);
+  padding: var(--spacing-layout-lg) var(--spacing-layout-xl);
+  text-align: center;
+}
+
+.hero__heading {
+  font-family: var(--font-family-base);
+  font-size: clamp(28px, 4vw, var(--typography-h1-size));
+  font-weight: var(--typography-h1-weight);
+  line-height: var(--typography-h1-line-height);
+  letter-spacing: var(--typography-h1-letter-spacing);
+  color: var(--color-text-strong);
+  max-width: 640px;
+  margin: 0 auto var(--space-2);
+}
+
+.hero__subtext {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-light);
+  color: var(--color-text-default);
+  max-width: 440px;
+  margin: 0 auto var(--space-5);
+  line-height: var(--line-height-relaxed);
+}
+
+.hero__actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hero__rule {
+  height: 6px;
+  width: 20%;
+  background: var(--color-background-brand);
+}

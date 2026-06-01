@@ -1,0 +1,107 @@
+/* =============================================================
+   TIER 2 — SEMANTIC TOKENS
+   Intent-mapped aliases. Use these in components, not primitives.
+   ============================================================= */
+
+@import './primitives.css';
+
+:root {
+
+  /* ── Colour: Background ── */
+  --color-background-default:         var(--color-neutral-0);
+  --color-background-subtle:          var(--color-neutral-50);
+  --color-background-muted:           var(--color-neutral-100);
+  --color-background-brand:           var(--color-blue-500);
+  --color-background-brand-hover:     var(--color-blue-600);
+  --color-background-brand-subtle:    rgba(0, 102, 204, 0.06);
+  --color-background-brand-muted:     rgba(0, 102, 204, 0.14);
+  --color-background-inverse:         var(--color-navy-500);
+  --color-background-teal:            var(--color-teal-500);
+  --color-background-teal-hover:      var(--color-teal-600);
+
+  /* Status */
+  --color-background-success:  var(--color-green-500);
+  --color-background-warning:  var(--color-amber-500);
+  --color-background-error:    var(--color-red-500);
+
+  /* ── Colour: Text ── */
+  --color-text-strong:       var(--color-navy-500);     /* headings */
+  --color-text-default:      var(--color-neutral-500);  /* body */
+  --color-text-subtle:       var(--color-neutral-400);
+  --color-text-disabled:     var(--color-neutral-300);
+  --color-text-inverse:      var(--color-neutral-0);
+  --color-text-inverse-muted: rgba(246, 247, 247, 0.65);
+  --color-text-brand:        var(--color-blue-500);
+  --color-text-brand-light:  #7ec8ff;
+
+  /* ── Colour: Border ── */
+  --color-border-default:  var(--color-neutral-100);
+  --color-border-subtle:   var(--color-neutral-50);
+  --color-border-strong:   var(--color-neutral-200);
+  --color-border-brand:    var(--color-blue-500);
+  --color-border-inverse:  rgba(246, 247, 247, 0.2);
+
+  /* ── Typography: Heading scale ── */
+  --typography-h1-size:          var(--font-size-8xl);
+  --typography-h1-weight:        var(--font-weight-extrabold);
+  --typography-h1-line-height:   var(--line-height-tight);
+  --typography-h1-letter-spacing:var(--letter-spacing-tight);
+
+  --typography-h2-size:          var(--font-size-7xl);
+  --typography-h2-weight:        var(--font-weight-extrabold);
+  --typography-h2-line-height:   var(--line-height-tight);
+  --typography-h2-letter-spacing:var(--letter-spacing-tight);
+
+  --typography-h3-size:          var(--font-size-5xl);
+  --typography-h3-weight:        var(--font-weight-bold);
+  --typography-h3-line-height:   var(--line-height-snug);
+  --typography-h3-letter-spacing:var(--letter-spacing-snug);
+
+  --typography-h4-size:          var(--font-size-4xl);
+  --typography-h4-weight:        var(--font-weight-bold);
+  --typography-h4-line-height:   1.3;
+  --typography-h4-letter-spacing:-0.532px;
+
+  --typography-h5-size:          var(--font-size-2xl);
+  --typography-h5-weight:        var(--font-weight-bold);
+  --typography-h5-line-height:   1.4;
+  --typography-h5-letter-spacing:-0.34px;
+
+  --typography-h6-size:          var(--font-size-lg);
+  --typography-h6-weight:        var(--font-weight-semibold);
+  --typography-h6-line-height:   1.5;
+  --typography-h6-letter-spacing:-0.176px;
+
+  /* ── Typography: Body ── */
+  --typography-body-lg-size:    var(--font-size-lg);
+  --typography-body-lg-weight:  var(--font-weight-light);
+  --typography-body-lg-lh:      var(--line-height-loose);
+
+  --typography-body-md-size:    var(--font-size-md);
+  --typography-body-md-weight:  var(--font-weight-light);
+  --typography-body-md-lh:      var(--line-height-relaxed);
+
+  --typography-body-sm-size:    var(--font-size-base);
+  --typography-body-sm-weight:  var(--font-weight-regular);
+  --typography-body-sm-lh:      var(--line-height-relaxed);
+
+  --typography-label-size:      var(--font-size-xs);
+  --typography-label-weight:    var(--font-weight-bold);
+  --typography-label-lh:        1;
+  --typography-label-spacing:   var(--letter-spacing-wider);
+
+  /* ── Spacing: Semantic aliases ── */
+  --spacing-component-xs:  var(--space-0-5);  /* 4px  — tight internal padding */
+  --spacing-component-sm:  var(--space-1);    /* 8px  — default internal padding */
+  --spacing-component-md:  var(--space-2);    /* 16px — comfortable padding */
+  --spacing-component-lg:  var(--space-3);    /* 24px — spacious padding */
+  --spacing-layout-xs:     var(--space-4);    /* 32px — tight section gap */
+  --spacing-layout-sm:     var(--space-5);    /* 40px — default section gap */
+  --spacing-layout-md:     var(--space-6);    /* 48px — comfortable section gap */
+  --spacing-layout-lg:     var(--space-9);    /* 72px — large section padding */
+  --spacing-layout-xl:     var(--space-10);   /* 80px — page edge padding */
+
+  /* ── Focus ── */
+  --focus-ring:        0 0 0 2px var(--color-background-default), 0 0 0 4px var(--color-border-brand);
+  --focus-ring-inset:  0 0 0 2px var(--color-border-brand);
+}

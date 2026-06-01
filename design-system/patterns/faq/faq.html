@@ -1,0 +1,32 @@
+<!-- ============================================================
+   FAQ ACCORDION PATTERN
+   Accessible accordion using aria-expanded.
+   ============================================================ -->
+
+<section class="faq" aria-labelledby="faq-heading">
+  <h2 class="faq__heading" id="faq-heading">Frequently asked questions</h2>
+
+  <div class="faq__list">
+
+    <div class="faq__item">
+      <button class="faq__trigger" aria-expanded="false" aria-controls="faq-1">
+        What is OpenText ACTIVATE?
+        <span class="faq__icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq__panel" id="faq-1" hidden>
+        <p>OpenText ACTIVATE is a modernisation programme that helps enterprises migrate their on-premises information management environments to cloud-ready, AI-ready infrastructure.</p>
+      </div>
+    </div>
+
+    <div class="faq__item">
+      <button class="faq__trigger" aria-expanded="false" aria-controls="faq-2">
+        How long does a typical migration take?
+        <span class="faq__icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq__panel" id="faq-2" hidden>
+        <p>Timelines vary based on environment complexity. Most migrations follow a phased approach with clear milestones defined during the initial AI Readiness Assessment.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
