@@ -1,0 +1,160 @@
+/* =============================================================
+   TIER 1 — PRIMITIVE TOKENS
+   Raw values. Never reference these directly in components.
+   Always alias through semantic.css or component.css.
+   ============================================================= */
+
+:root {
+
+  /* ── Colour Palette ── */
+
+  /* Blue */
+  --color-blue-50:  #e6f0fa;
+  --color-blue-100: #cce1f5;
+  --color-blue-200: #99c3eb;
+  --color-blue-300: #66a5e1;
+  --color-blue-400: #3387d7;
+  --color-blue-500: #0066cc;
+  --color-blue-600: #0052a3;
+  --color-blue-700: #003d7a;
+  --color-blue-800: #002952;
+  --color-blue-900: #001429;
+
+  /* Teal */
+  --color-teal-50:  #e6f4f4;
+  --color-teal-100: #cce9e9;
+  --color-teal-200: #99d3d3;
+  --color-teal-300: #66bcbc;
+  --color-teal-400: #33a6a6;
+  --color-teal-500: #007a7a;
+  --color-teal-600: #005f5f;
+  --color-teal-700: #004545;
+  --color-teal-800: #002b2b;
+  --color-teal-900: #001111;
+
+  /* Navy */
+  --color-navy-50:  #e8eaf0;
+  --color-navy-100: #c5cad8;
+  --color-navy-200: #8d96b1;
+  --color-navy-300: #55638a;
+  --color-navy-400: #1d3063;
+  --color-navy-500: #101c2f;
+  --color-navy-600: #0d1726;
+  --color-navy-700: #0a121d;
+  --color-navy-800: #060c14;
+  --color-navy-900: #03060b;
+
+  /* Neutral */
+  --color-neutral-0:   #ffffff;
+  --color-neutral-50:  #f6f7f7;
+  --color-neutral-100: #e7eaef;
+  --color-neutral-200: #cdd2da;
+  --color-neutral-300: #b3bac5;
+  --color-neutral-400: #8a94a6;
+  --color-neutral-500: #3f4d62;
+  --color-neutral-600: #2e3a4d;
+  --color-neutral-700: #1e2838;
+  --color-neutral-800: #101c2f;
+  --color-neutral-900: #080e17;
+
+  /* Amber (status/warning) */
+  --color-amber-300: #f6c975;
+  --color-amber-500: #d97706;
+  --color-amber-700: #92400e;
+
+  /* Green (status/success) */
+  --color-green-300: #6ee7b7;
+  --color-green-500: #059669;
+  --color-green-700: #065f46;
+
+  /* Red (status/error) */
+  --color-red-300: #fca5a5;
+  --color-red-500: #dc2626;
+  --color-red-700: #991b1b;
+
+  /* ── Typography ── */
+  --font-family-base:    'Inter', sans-serif;
+  --font-family-mono:    'JetBrains Mono', 'Fira Code', monospace;
+
+  --font-size-xs:   11px;
+  --font-size-sm:   12px;
+  --font-size-base: 13px;
+  --font-size-md:   14px;
+  --font-size-lg:   16px;
+  --font-size-xl:   18px;
+  --font-size-2xl:  20px;
+  --font-size-3xl:  24px;
+  --font-size-4xl:  28px;
+  --font-size-5xl:  34px;
+  --font-size-6xl:  38px;
+  --font-size-7xl:  46px;
+  --font-size-8xl:  52px;
+
+  --font-weight-light:     300;
+  --font-weight-regular:   400;
+  --font-weight-medium:    500;
+  --font-weight-semibold:  600;
+  --font-weight-bold:      700;
+  --font-weight-extrabold: 800;
+
+  --line-height-tight:   1.1;
+  --line-height-snug:    1.3;
+  --line-height-normal:  1.5;
+  --line-height-relaxed: 1.6;
+  --line-height-loose:   1.75;
+
+  --letter-spacing-tight:  -0.02em;
+  --letter-spacing-snug:   -0.01em;
+  --letter-spacing-normal:  0;
+  --letter-spacing-wide:    0.05em;
+  --letter-spacing-wider:   0.1em;
+  --letter-spacing-widest:  0.15em;
+
+  /* ── Spacing (4px base grid) ── */
+  --space-0:    0;
+  --space-0-25: 2px;
+  --space-0-5:  4px;
+  --space-1:    8px;
+  --space-2:    16px;
+  --space-3:    24px;
+  --space-4:    32px;
+  --space-5:    40px;
+  --space-6:    48px;
+  --space-7:    56px;
+  --space-8:    64px;
+  --space-9:    72px;
+  --space-10:   80px;
+
+  /* ── Border ── */
+  --border-width-thin:   1px;
+  --border-width-medium: 2px;
+  --border-width-thick:  3px;
+
+  --border-radius-none: 0;
+  --border-radius-sm:   3px;
+  --border-radius-md:   6px;
+  --border-radius-lg:   12px;
+  --border-radius-full: 9999px;
+
+  /* ── Shadow ── */
+  --shadow-sm:      0 1px 4px rgba(16, 28, 47, 0.06);
+  --shadow-md:      0 2px 16px rgba(16, 28, 47, 0.09);
+  --shadow-lg:      0 8px 32px rgba(16, 28, 47, 0.13);
+  --shadow-xl:      0 12px 40px rgba(16, 28, 47, 0.12);
+  --shadow-overlay: 0 16px 48px rgba(16, 28, 47, 0.18);
+
+  /* ── Z-index ── */
+  --z-base:    0;
+  --z-raised:  100;
+  --z-overlay: 200;
+  --z-nav:     300;
+  --z-modal:   400;
+  --z-toast:   500;
+
+  /* ── Transition ── */
+  --duration-fast:   0.12s;
+  --duration-normal: 0.2s;
+  --duration-slow:   0.28s;
+  --easing-default:  ease;
+  --easing-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
+}

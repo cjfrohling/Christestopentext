@@ -1,0 +1,98 @@
+/* =============================================================
+   TIER 3 — COMPONENT TOKENS
+   Scoped overrides for heavily-variable components.
+   Use sparingly — prefer Tier 2 semantic tokens where possible.
+   ============================================================= */
+
+@import './semantic.css';
+
+:root {
+
+  /* ── Button ── */
+  --button-bg:              var(--color-background-brand);
+  --button-bg-hover:        var(--color-background-brand-hover);
+  --button-bg-disabled:     var(--color-neutral-100);
+  --button-text:            var(--color-text-inverse);
+  --button-text-disabled:   var(--color-text-disabled);
+  --button-border:          var(--color-border-brand);
+  --button-radius:          var(--border-radius-full);
+  --button-padding-x:       22px;
+  --button-padding-y:       11px;
+  --button-font-size:       var(--font-size-md);
+  --button-font-weight:     var(--font-weight-semibold);
+  --button-transition:      background var(--duration-fast) var(--easing-default);
+
+  /* Outline variant */
+  --button-outline-bg:          transparent;
+  --button-outline-bg-hover:    var(--color-background-brand-subtle);
+  --button-outline-text:        var(--color-text-brand);
+  --button-outline-border:      var(--color-border-brand);
+
+  /* Teal variant */
+  --button-teal-bg:         var(--color-background-teal);
+  --button-teal-bg-hover:   var(--color-background-teal-hover);
+  --button-teal-radius:     var(--border-radius-sm);
+
+  /* ── Form Fields ── */
+  --field-border:           var(--color-border-default);
+  --field-border-focus:     var(--color-border-brand);
+  --field-border-width:     1.5px;
+  --field-border-radius:    var(--border-radius-sm);
+  --field-bg:               var(--color-background-default);
+  --field-text:             var(--color-text-strong);
+  --field-placeholder:      var(--color-text-subtle);
+  --field-font-size:        var(--font-size-lg);
+  --field-padding-x:        var(--space-2);
+  --field-padding-y:        12px;
+
+  /* ── Navigation ── */
+  --nav-height:             60px;
+  --nav-bg:                 var(--color-background-default);
+  --nav-border:             var(--color-border-default);
+  --nav-item-text:          var(--color-text-default);
+  --nav-item-text-active:   var(--color-text-brand);
+  --nav-item-border-active: var(--color-border-brand);
+  --nav-item-font-size:     var(--font-size-base);
+  --nav-item-font-weight:   var(--font-weight-medium);
+
+  /* Sub-nav */
+  --subnav-height:          40px;
+  --subnav-font-size:       var(--font-size-base);
+
+  /* ── Card ── */
+  --card-bg:                var(--color-background-default);
+  --card-border:            var(--color-border-default);
+  --card-border-radius:     var(--border-radius-md);
+  --card-padding:           var(--space-4);
+  --card-shadow:            none;
+  --card-shadow-hover:      var(--shadow-md);
+
+  /* ── Badge / Tag ── */
+  --badge-font-size:        var(--font-size-xs);
+  --badge-font-weight:      var(--font-weight-bold);
+  --badge-letter-spacing:   var(--letter-spacing-wide);
+  --badge-padding-x:        var(--space-1);
+  --badge-padding-y:        2px;
+  --badge-radius:           var(--border-radius-sm);
+
+  /* Inverse badge (dark backgrounds) */
+  --badge-inverse-bg:       rgba(255, 255, 255, 0.1);
+  --badge-inverse-border:   rgba(255, 255, 255, 0.2);
+  --badge-inverse-text:     rgba(255, 255, 255, 0.75);
+
+  /* ── Mega Panel / Dropdown ── */
+  --panel-bg:               var(--color-background-default);
+  --panel-border-top:       var(--border-width-medium) solid var(--color-border-brand);
+  --panel-shadow:           var(--shadow-xl);
+  --panel-padding-y:        var(--space-5);
+  --panel-padding-x:        var(--space-4);
+
+  /* ── FAQ Accordion ── */
+  --faq-border:             var(--color-border-default);
+  --faq-question-font-size: var(--font-size-md);
+  --faq-question-weight:    var(--font-weight-semibold);
+  --faq-answer-font-size:   var(--font-size-md);
+  --faq-answer-weight:      var(--font-weight-light);
+  --faq-toggle-border:      var(--color-border-brand);
+  --faq-toggle-color:       var(--color-text-brand);
+}

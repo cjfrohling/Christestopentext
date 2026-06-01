@@ -1,0 +1,69 @@
+/* Card — base */
+.card {
+  background: var(--card-bg);
+  border: var(--border-width-thin) solid var(--card-border);
+  border-radius: var(--card-border-radius);
+  padding: var(--card-padding);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  transition: box-shadow var(--duration-fast) var(--easing-default);
+}
+.card:hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+.card__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--border-radius-md);
+  background: var(--color-background-inverse);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-0-5);
+  flex-shrink: 0;
+  color: var(--color-text-inverse);
+}
+
+.card__heading {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-snug);
+  color: var(--color-text-strong);
+  margin: 0;
+}
+
+.card__body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-light);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-default);
+  margin: 0;
+}
+
+/* Promo variant */
+.card--promo {
+  background: var(--color-background-inverse);
+  border-color: transparent;
+  gap: var(--space-2);
+}
+.card--promo .card__heading {
+  color: var(--color-text-inverse);
+  font-size: var(--font-size-xl);
+}
+.card--promo .card__body {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.card__cta {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-brand-light);
+  text-decoration: none;
+  margin-top: auto;
+}
+.card__cta:hover { text-decoration: underline; }
