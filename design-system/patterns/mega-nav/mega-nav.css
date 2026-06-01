@@ -1,0 +1,76 @@
+/* Mega panel */
+.mega-panel {
+  position: fixed;
+  top: var(--nav-height);
+  left: 0;
+  right: 0;
+  background: var(--panel-bg);
+  border-top: var(--panel-border-top);
+  box-shadow: var(--panel-shadow);
+  z-index: calc(var(--z-nav) - 1);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity var(--duration-normal) var(--easing-default),
+              transform var(--duration-normal) var(--easing-default);
+}
+.mega-panel.is-visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+.mega-panel__inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) var(--space-6);
+  display: grid;
+  gap: 0 48px;
+  min-height: 280px;
+  align-content: start;
+}
+.mega-panel__inner--cols-4 { grid-template-columns: repeat(4, 1fr); }
+.mega-panel__inner--cols-3 { grid-template-columns: 2fr repeat(2, 1fr); }
+.mega-panel__inner--cols-2 { grid-template-columns: 1fr 1fr; }
+
+.mega-panel__col-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: uppercase;
+  color: var(--color-text-brand);
+  margin-bottom: var(--space-2);
+  padding-bottom: 10px;
+  border-bottom: var(--border-width-thin) solid var(--color-border-default);
+}
+
+.mega-panel__col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+}
+.mega-panel__col ul a {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-default);
+  text-decoration: none;
+  padding: 5px var(--space-0-5);
+  display: flex;
+  align-items: center;
+  gap: var(--space-0-5);
+  border-radius: var(--border-radius-sm);
+  transition: color var(--duration-fast) var(--easing-default),
+              background var(--duration-fast) var(--easing-default);
+}
+.mega-panel__col ul a:hover {
+  color: var(--color-text-brand);
+  background: var(--color-background-brand-subtle);
+}
+.mega-panel__col ul a:focus-visible {
+  outline: 2px solid var(--color-border-brand);
+  outline-offset: 1px;
+  color: var(--color-text-brand);
+}

@@ -1,0 +1,28 @@
+/* Badge — base */
+.badge {
+  display: inline-block;
+  font-family: var(--font-family-base);
+  font-size: var(--badge-font-size);
+  font-weight: var(--badge-font-weight);
+  letter-spacing: var(--badge-letter-spacing);
+  text-transform: uppercase;
+  line-height: 1;
+  padding: var(--badge-padding-y) var(--badge-padding-x);
+  border-radius: var(--badge-radius);
+  border: 1px solid var(--color-border-default);
+  color: var(--color-text-default);
+  background: var(--color-background-subtle);
+  width: fit-content;
+}
+
+/* Pill variant */
+.badge--pill {
+  border-radius: var(--border-radius-full);
+}
+
+/* Inverse — for use on dark/navy backgrounds */
+.badge--inverse {
+  background: var(--badge-inverse-bg);
+  border-color: var(--badge-inverse-border);
+  color: var(--badge-inverse-text);
+}
