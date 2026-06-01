@@ -20,6 +20,7 @@
   --light:  #f6f7f7;
   --white:  #ffffff;
   --font:   'Inter', sans-serif;
+  --nav-h:  60px; /* updated by JS on scroll for compact mode */
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -27,26 +28,615 @@ body { font-family: var(--font); font-size: 16px; font-weight: 300; line-height:
 .wrap { max-width: 1180px; margin: 0 auto; padding: 0 40px; }
 
 /* ── MAIN NAV ── */
-.main-nav { background: var(--white); border-bottom: 1px solid var(--border); height: 52px; position: sticky; top: 0; z-index: 200; }
-.main-nav-inner { max-width: 1440px; margin: 0 auto; padding: 0 32px; height: 100%; display: flex; align-items: center; justify-content: space-between; }
-.logo { font-size: 16px; font-weight: 800; color: var(--navy); text-decoration: none; letter-spacing: -.3px; flex-shrink: 0; }
+.main-nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  height: var(--nav-h);
+  position: sticky;
+  top: 0;
+  z-index: 300;
+  transition: height .25s ease, box-shadow .25s ease;
+}
+.main-nav.compact {
+  box-shadow: 0 2px 16px rgba(16,28,47,.09);
+}
+.main-nav-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--navy);
+  text-decoration: none;
+  letter-spacing: -.3px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  transition: font-size .25s;
+}
+.main-nav.compact .logo { font-size: 16px; }
 .logo em { font-style: normal; color: var(--blue); }
 .logo sup { font-size: 7px; font-weight: 400; vertical-align: super; }
-.main-links { display: flex; gap: 22px; list-style: none; }
-.main-links a { font-size: 13px; font-weight: 500; color: var(--body); text-decoration: none; white-space: nowrap; }
-.main-links a:hover { color: var(--blue); }
-.nav-actions { display: flex; align-items: center; gap: 12px; }
-.icon-btn { background: none; border: none; cursor: pointer; color: var(--body); padding: 4px; display: flex; align-items: center; }
-.connect-btn { background: var(--blue); color: var(--white); border: none; border-radius: 3px; padding: 7px 15px; font-family: var(--font); font-size: 13px; font-weight: 600; cursor: pointer; }
+
+/* Nav items */
+.main-links {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  list-style: none;
+  height: var(--nav-h);
+  transition: height .25s ease;
+}
+.main-links > li {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.nav-item-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--body);
+  padding: 0 14px;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color .15s, border-color .15s, height .25s;
+  position: relative;
+}
+.nav-item-btn:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: -2px;
+  border-radius: 3px;
+}
+.nav-item-btn:hover,
+.main-links > li.open .nav-item-btn {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+}
+.nav-item-btn .chevron {
+  width: 10px;
+  height: 10px;
+  stroke: currentColor;
+  fill: none;
+  transition: transform .2s;
+  flex-shrink: 0;
+}
+.main-links > li.open .nav-item-btn .chevron {
+  transform: rotate(180deg);
+}
+
+/* Nav actions */
+.nav-actions { display: flex; align-items: center; gap: 8px; }
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--body);
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: background .15s, color .15s;
+}
+.icon-btn:hover { background: var(--light); color: var(--blue); }
+.icon-btn.active { color: var(--blue); background: var(--light); }
+.icon-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+.connect-btn {
+  background: var(--blue);
+  color: var(--white);
+  border: none;
+  border-radius: 3px;
+  padding: 8px 18px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s;
+}
 .connect-btn:hover { background: var(--blue-d); }
+.connect-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+/* ── LANGUAGE SWITCHER ── */
+.lang-wrapper {
+  position: relative;
+}
+.lang-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 340px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--blue);
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 8px 32px rgba(16,28,47,.13);
+  z-index: 400;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity .18s ease, transform .18s ease;
+}
+.lang-panel.visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+.lang-panel-header {
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.lang-panel-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+.lang-panel-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--body);
+  padding: 2px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  transition: color .12s;
+}
+.lang-panel-close:hover { color: var(--blue); }
+.lang-panel-close:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+.lang-region {
+  padding: 12px 16px 4px;
+}
+.lang-region-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--body);
+  opacity: .45;
+  margin-bottom: 6px;
+}
+.lang-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  margin-bottom: 8px;
+}
+.lang-opt {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 8px;
+  border-radius: 3px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--body);
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: var(--font);
+  text-align: left;
+  transition: background .12s, color .12s;
+}
+.lang-opt:hover { background: rgba(0,102,204,.06); color: var(--blue); }
+.lang-opt:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+.lang-opt.active { color: var(--blue); font-weight: 600; }
+.lang-opt .lang-check {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  stroke: var(--blue);
+  fill: none;
+  opacity: 0;
+}
+.lang-opt.active .lang-check { opacity: 1; }
+.lang-divider { height: 1px; background: var(--border); margin: 4px 16px; }
+
+/* Hamburger (mobile only) */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  color: var(--body);
+  border-radius: 4px;
+  flex-direction: column;
+  gap: 4px;
+  transition: color .15s;
+}
+.hamburger:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+.hamburger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform .25s, opacity .25s, width .25s;
+  transform-origin: center;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* ── MEGA DROPDOWN ── */
+.mega-panel {
+  position: fixed;
+  top: var(--nav-h);
+  left: 0;
+  right: 0;
+  background: var(--white);
+  border-top: 2px solid var(--blue);
+  box-shadow: 0 12px 40px rgba(16,28,47,.12);
+  z-index: 299;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity .2s ease, transform .2s ease, top .25s ease;
+}
+.mega-panel.visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+.mega-panel-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 40px 32px 48px;
+  display: grid;
+  gap: 0 48px;
+  min-height: 280px;
+  align-content: start;
+}
+.mega-panel-inner.cols-4 { grid-template-columns: repeat(4, 1fr); }
+.mega-panel-inner.cols-3 { grid-template-columns: 2fr repeat(2, 1fr); }
+.mega-panel-inner.cols-2 { grid-template-columns: 1fr 1fr; }
+
+.mega-col-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.mega-col ul { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.mega-col ul a {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--body);
+  text-decoration: none;
+  padding: 5px 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 3px;
+  transition: color .12s, background .12s;
+}
+.mega-col ul a:hover { color: var(--blue); background: rgba(0,102,204,.04); }
+.mega-col ul a:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 1px;
+  color: var(--blue);
+}
+.mega-col ul a .link-arrow {
+  opacity: 0;
+  transition: opacity .12s, transform .12s;
+  font-size: 11px;
+}
+.mega-col ul a:hover .link-arrow,
+.mega-col ul a:focus-visible .link-arrow { opacity: 1; transform: translateX(2px); }
+
+/* Featured promo tile in panel */
+.mega-promo {
+  background: var(--navy);
+  border-radius: 6px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mega-promo-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.75);
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 3px;
+  padding: 2px 8px;
+  width: fit-content;
+}
+.mega-promo h4 {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #fff;
+}
+.mega-promo p {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(255,255,255,.85); /* was .65 – improved contrast */
+}
+.mega-promo a {
+  font-size: 13px;
+  font-weight: 600;
+  color: #7ec8ff;
+  text-decoration: none;
+  margin-top: auto;
+}
+.mega-promo a:hover { text-decoration: underline; }
+.mega-promo a:focus-visible { outline: 2px solid #7ec8ff; outline-offset: 2px; border-radius: 2px; }
+
+/* Overlay backdrop */
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  top: var(--nav-h);
+  background: rgba(16,28,47,.35);
+  z-index: 298;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease, top .25s ease;
+}
+.nav-backdrop.visible { opacity: 1; pointer-events: all; }
+
+/* Search overlay */
+.search-overlay {
+  position: fixed;
+  top: var(--nav-h);
+  left: 0;
+  right: 0;
+  background: var(--white);
+  border-top: 2px solid var(--blue);
+  box-shadow: 0 12px 40px rgba(16,28,47,.12);
+  z-index: 299;
+  padding: 32px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity .2s ease, transform .2s ease, top .25s ease;
+}
+.search-overlay.visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+.search-overlay-inner { max-width: 800px; margin: 0 auto; }
+.search-overlay label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 12px;
+}
+.search-row {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color .15s;
+}
+.search-row:focus-within { border-color: var(--blue); }
+.search-row input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--head);
+  padding: 12px 16px;
+  background: transparent;
+}
+.search-row button {
+  background: var(--blue);
+  border: none;
+  cursor: pointer;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  transition: background .15s;
+}
+.search-row button:hover { background: var(--blue-d); }
+.search-row button:focus-visible { outline: 2px solid var(--blue-d); outline-offset: -3px; }
+.search-suggest {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.search-suggest span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--body);
+  opacity: .5;
+  margin-right: 4px;
+}
+.search-suggest a {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--blue);
+  text-decoration: none;
+  background: rgba(0,102,204,.07);
+  border-radius: 100px;
+  padding: 3px 10px;
+}
+.search-suggest a:hover { background: rgba(0,102,204,.14); }
+.search-suggest a:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
 
 /* ── SUB NAV ── */
-.sub-nav { background: var(--white); border-bottom: 1px solid var(--border); height: 40px; position: sticky; top: 52px; z-index: 199; }
+.sub-nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  height: 40px;
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 199;
+  transition: top .25s ease;
+}
 .sub-nav-inner { max-width: 1440px; margin: 0 auto; padding: 0 32px; height: 100%; display: flex; align-items: center; gap: 0; }
-.sub-nav-brand { font-size: 12px; font-weight: 800; color: var(--navy); letter-spacing: 1px; text-transform: uppercase; padding-right: 20px; border-right: 1px solid var(--border); margin-right: 4px; }
-.sub-nav-links { display: flex; align-items: center; gap: 0; }
-.sub-nav-links a { font-size: 13px; font-weight: 400; color: var(--body); text-decoration: none; padding: 0 18px; line-height: 40px; white-space: nowrap; }
-.sub-nav-links a:hover { color: var(--blue); }
+.sub-nav-brand { font-size: 12px; font-weight: 800; color: var(--navy); letter-spacing: 1px; text-transform: uppercase; padding-right: 20px; border-right: 1px solid var(--border); margin-right: 4px; flex-shrink: 0; }
+.sub-nav-links { display: flex; align-items: stretch; gap: 0; height: 40px; overflow-x: auto; }
+.sub-nav-links a {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--body);
+  text-decoration: none;
+  padding: 0 18px;
+  line-height: 40px;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color .15s, border-color .15s;
+  display: block;
+}
+.sub-nav-links a:hover { color: var(--blue); border-bottom-color: rgba(0,102,204,.3); }
+.sub-nav-links a.active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 500; }
+.sub-nav-links a:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+
+/* ── MOBILE DRAWER ── */
+.mob-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(16,28,47,.5);
+  z-index: 400;
+  opacity: 0;
+  transition: opacity .25s;
+}
+.mob-overlay.open { opacity: 1; }
+.mob-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(340px, 90vw);
+  background: var(--white);
+  z-index: 401;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform .28s cubic-bezier(.4,0,.2,1);
+  overflow: hidden;
+}
+.mob-drawer.open { transform: translateX(0); }
+.mob-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 60px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.mob-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--body);
+  padding: 6px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition: color .15s, background .15s;
+}
+.mob-close:hover { color: var(--blue); background: var(--light); }
+.mob-close:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+.mob-nav { flex: 1; overflow-y: auto; padding: 8px 0; }
+.mob-acc-item { border-bottom: 1px solid var(--border); }
+.mob-acc-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--head);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  transition: color .15s;
+}
+.mob-acc-btn:hover { color: var(--blue); }
+.mob-acc-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+.mob-acc-btn .chevron {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
+  fill: none;
+  transition: transform .2s;
+  flex-shrink: 0;
+}
+.mob-acc-item.open .mob-acc-btn .chevron { transform: rotate(180deg); }
+.mob-acc-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s ease;
+  background: var(--light);
+}
+.mob-acc-item.open .mob-acc-body { max-height: 600px; }
+.mob-acc-section { padding: 12px 20px 4px; }
+.mob-acc-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 4px;
+}
+.mob-acc-body a {
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--body);
+  text-decoration: none;
+  padding: 7px 20px;
+  transition: color .12s, background .12s;
+}
+.mob-acc-body a:hover { color: var(--blue); background: rgba(0,102,204,.05); }
+.mob-acc-body a:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+.mob-drawer-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mob-drawer-footer .connect-btn { width: 100%; text-align: center; padding: 11px; font-size: 14px; }
 
 /* ── DIVIDER ── */
 .rule { height: 3px; background: var(--blue); }
@@ -240,50 +830,554 @@ body { font-family: var(--font); font-size: 16px; font-weight: 300; line-height:
   .howto-grid { grid-template-columns: 1fr 1fr; }
   .where-cards { grid-template-columns: 1fr 1fr; }
 }
+@media (max-width: 768px) {
+  .main-links { display: none; }
+  .hamburger { display: flex; }
+  .mob-overlay { display: block; }
+  /* mega panels disabled on mobile – handled by drawer */
+  .mega-panel, .search-overlay { display: none; }
+  .connect-btn.desktop-only { display: none; }
+  .main-nav-inner { padding: 0 20px; }
+  .sub-nav-inner { padding: 0 16px; }
+  .sub-nav-brand { padding-right: 14px; margin-right: 0; font-size: 11px; }
+  .sub-nav-links a { padding: 0 12px; font-size: 12px; }
+}
 @media (max-width: 640px) {
   .wrap { padding: 0 20px; }
   .pain-grid, .howto-grid, .where-cards, .footer-grid { grid-template-columns: 1fr; }
-  .main-links, .sub-nav-links { display: none; }
 }
 </style>
 </head>
 <body>
 
+<!-- NAV BACKDROP -->
+<div class="nav-backdrop" id="navBackdrop"></div>
+
 <!-- MAIN NAV -->
-<header class="main-nav">
+<header class="main-nav" id="mainNav">
   <div class="main-nav-inner">
-    <div style="display:flex;align-items:center;gap:28px;">
-      <a class="logo" href="#">open<em>text</em><sup>™</sup></a>
-      <ul class="main-links">
-        <li><a href="#">Why OpenText</a></li>
-        <li><a href="#">Products</a></li>
-        <li><a href="#">Solutions</a></li>
-        <li><a href="#">Services</a></li>
-        <li><a href="#">Partners</a></li>
-        <li><a href="#">Support</a></li>
-        <li><a href="#">Resources</a></li>
+    <div style="display:flex;align-items:center;gap:0;">
+      <a class="logo" href="#" style="margin-right:32px;">open<em>text</em><sup>™</sup></a>
+      <ul class="main-links" id="mainLinks">
+        <li data-panel="why">
+          <button class="nav-item-btn" aria-expanded="false" aria-haspopup="true">
+            Why OpenText
+            <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg>
+          </button>
+        </li>
+        <li data-panel="products">
+          <button class="nav-item-btn" aria-expanded="false" aria-haspopup="true">
+            Products
+            <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg>
+          </button>
+        </li>
+        <li data-panel="solutions">
+          <button class="nav-item-btn" aria-expanded="false" aria-haspopup="true">
+            Solutions
+            <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg>
+          </button>
+        </li>
+        <li data-panel="services">
+          <button class="nav-item-btn" aria-expanded="false" aria-haspopup="true">
+            Services
+            <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg>
+          </button>
+        </li>
+        <li data-panel="partners">
+          <button class="nav-item-btn" aria-expanded="false" aria-haspopup="true">
+            Partners
+            <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg>
+          </button>
+        </li>
+        <li data-panel="support">
+          <button class="nav-item-btn" aria-expanded="false" aria-haspopup="true">
+            Support
+            <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg>
+          </button>
+        </li>
+        <li data-panel="resources">
+          <button class="nav-item-btn" aria-expanded="false" aria-haspopup="true">
+            Resources
+            <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg>
+          </button>
+        </li>
       </ul>
     </div>
     <div class="nav-actions">
-      <button class="icon-btn" aria-label="Search">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <button class="icon-btn" id="searchToggle" aria-label="Search" aria-expanded="false">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       </button>
-      <button class="icon-btn" aria-label="Settings">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <div class="lang-wrapper">
+        <button class="icon-btn" id="langToggle" aria-label="Select language" aria-expanded="false" aria-haspopup="true">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </button>
+        <div class="lang-panel" id="langPanel" role="dialog" aria-label="Language and region selector">
+          <div class="lang-panel-header">
+            <span class="lang-panel-title">Language / Region</span>
+            <button class="lang-panel-close" id="langPanelClose" aria-label="Close language selector">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+
+          <div class="lang-region">
+            <p class="lang-region-label">Americas</p>
+            <div class="lang-grid">
+              <button class="lang-opt active" data-lang="en">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                English
+              </button>
+              <button class="lang-opt" data-lang="pt-br">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Português (Brasil)
+              </button>
+              <button class="lang-opt" data-lang="es">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Español
+              </button>
+              <button class="lang-opt" data-lang="fr-ca">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Français (Canada)
+              </button>
+            </div>
+          </div>
+
+          <div class="lang-divider"></div>
+
+          <div class="lang-region">
+            <p class="lang-region-label">Europe</p>
+            <div class="lang-grid">
+              <button class="lang-opt" data-lang="de">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Deutsch
+              </button>
+              <button class="lang-opt" data-lang="fr">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Français
+              </button>
+              <button class="lang-opt" data-lang="it">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Italiano
+              </button>
+              <button class="lang-opt" data-lang="nl">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Nederlands
+              </button>
+              <button class="lang-opt" data-lang="sv">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Svenska
+              </button>
+              <button class="lang-opt" data-lang="no">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Norsk
+              </button>
+              <button class="lang-opt" data-lang="da">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Dansk
+              </button>
+              <button class="lang-opt" data-lang="fi">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Suomi
+              </button>
+            </div>
+          </div>
+
+          <div class="lang-divider"></div>
+
+          <div class="lang-region" style="padding-bottom:16px;">
+            <p class="lang-region-label">Asia Pacific</p>
+            <div class="lang-grid">
+              <button class="lang-opt" data-lang="ja">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                日本語
+              </button>
+              <button class="lang-opt" data-lang="zh-cn">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                中文 (简体)
+              </button>
+              <button class="lang-opt" data-lang="zh-tw">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                中文 (繁體)
+              </button>
+              <button class="lang-opt" data-lang="ko">
+                <svg class="lang-check" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                한국어
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="connect-btn desktop-only">Connect</button>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobDrawer">
+        <span></span><span></span><span></span>
       </button>
-      <button class="connect-btn">Connect</button>
     </div>
   </div>
 </header>
+
+<!-- MOBILE DRAWER -->
+<div class="mob-overlay" id="mobOverlay" aria-hidden="true"></div>
+<div class="mob-drawer" id="mobDrawer" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true">
+  <div class="mob-drawer-header">
+    <a class="logo" href="#">open<em>text</em><sup>™</sup></a>
+    <button class="mob-close" id="mobClose" aria-label="Close menu">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <nav class="mob-nav" id="mobNav">
+
+    <div class="mob-acc-item">
+      <button class="mob-acc-btn" aria-expanded="false">Why OpenText <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg></button>
+      <div class="mob-acc-body">
+        <div class="mob-acc-section"><p class="mob-acc-section-label">Our Story</p></div>
+        <a href="#">Company Overview</a><a href="#">Leadership</a><a href="#">Innovation &amp; AI</a><a href="#">Newsroom</a>
+        <div class="mob-acc-section"><p class="mob-acc-section-label">Customer Success</p></div>
+        <a href="#">Customer Stories</a><a href="#">Analyst Recognition</a>
+        <div class="mob-acc-section"><p class="mob-acc-section-label">Responsibility</p></div>
+        <a href="#">Sustainability</a><a href="#">Diversity &amp; Inclusion</a>
+      </div>
+    </div>
+
+    <div class="mob-acc-item">
+      <button class="mob-acc-btn" aria-expanded="false">Products <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg></button>
+      <div class="mob-acc-body">
+        <div class="mob-acc-section"><p class="mob-acc-section-label">Content Management</p></div>
+        <a href="#">Extended ECM</a><a href="#">Content Server</a><a href="#">Documentum</a><a href="#">OpenText Core</a>
+        <div class="mob-acc-section"><p class="mob-acc-section-label">Business Network</p></div>
+        <a href="#">Trading Grid</a><a href="#">Exstream / CCM</a><a href="#">RightFax</a>
+        <div class="mob-acc-section"><p class="mob-acc-section-label">Security &amp; Analytics</p></div>
+        <a href="#">Fortify</a><a href="#">Magellan Analytics</a>
+      </div>
+    </div>
+
+    <div class="mob-acc-item">
+      <button class="mob-acc-btn" aria-expanded="false">Solutions <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg></button>
+      <div class="mob-acc-body">
+        <div class="mob-acc-section"><p class="mob-acc-section-label">By Industry</p></div>
+        <a href="#">Financial Services</a><a href="#">Healthcare &amp; Life Sciences</a><a href="#">Government</a><a href="#">Manufacturing</a>
+        <div class="mob-acc-section"><p class="mob-acc-section-label">By Business Need</p></div>
+        <a href="#">AI Readiness</a><a href="#">Cloud Migration</a><a href="#">Compliance &amp; Governance</a>
+      </div>
+    </div>
+
+    <div class="mob-acc-item">
+      <button class="mob-acc-btn" aria-expanded="false">Services <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg></button>
+      <div class="mob-acc-body">
+        <a href="#">Implementation</a><a href="#">Migration Services</a><a href="#">Managed Services</a>
+        <a href="#">Success Plans</a><a href="#">OpenText University</a>
+      </div>
+    </div>
+
+    <div class="mob-acc-item">
+      <button class="mob-acc-btn" aria-expanded="false">Partners <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg></button>
+      <div class="mob-acc-body">
+        <a href="#">System Integrators</a><a href="#">Value-Added Resellers</a><a href="#">Partner Portal</a><a href="#">Become a Partner</a>
+      </div>
+    </div>
+
+    <div class="mob-acc-item">
+      <button class="mob-acc-btn" aria-expanded="false">Support <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg></button>
+      <div class="mob-acc-body">
+        <a href="#">Knowledge Base</a><a href="#">Community Forums</a><a href="#">Submit a Ticket</a><a href="#">OpenText University</a>
+      </div>
+    </div>
+
+    <div class="mob-acc-item">
+      <button class="mob-acc-btn" aria-expanded="false">Resources <svg class="chevron" viewBox="0 0 10 10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,3 5,7 8,3"/></svg></button>
+      <div class="mob-acc-body">
+        <a href="#">Blog</a><a href="#">White Papers</a><a href="#">Webinars</a><a href="#">Events</a><a href="#">Developer Hub</a>
+      </div>
+    </div>
+
+  </nav>
+  <div class="mob-drawer-footer">
+    <button class="connect-btn">Connect</button>
+  </div>
+</div>
+
+<!-- MEGA PANELS -->
+
+<!-- Why OpenText -->
+<div class="mega-panel" id="panel-why" role="region" aria-label="Why OpenText">
+  <div class="mega-panel-inner cols-4">
+    <div class="mega-col">
+      <p class="mega-col-label">Our Story</p>
+      <ul>
+        <li><a href="#">Company Overview <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Leadership <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Innovation & AI <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Corporate Responsibility <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Investor Relations <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Newsroom <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Customer Success</p>
+      <ul>
+        <li><a href="#">Customer Stories <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Analyst Recognition <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Awards & Accolades <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Responsibility</p>
+      <ul>
+        <li><a href="#">Sustainability <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Ethics & Compliance <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Diversity & Inclusion <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Community <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-promo">
+      <span class="mega-promo-tag">Featured</span>
+      <h4>The Agentic AI Genome</h4>
+      <p>Discover how AI agents transform enterprise information into a strategic advantage.</p>
+      <a href="#">Read the report →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Products -->
+<div class="mega-panel" id="panel-products" role="region" aria-label="Products">
+  <div class="mega-panel-inner cols-4">
+    <div class="mega-col">
+      <p class="mega-col-label">Content Management</p>
+      <ul>
+        <li><a href="#">Extended ECM <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Content Server <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Documentum <span class="link-arrow">→</span></a></li>
+        <li><a href="#">OpenText Core <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Livelink <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Business Network</p>
+      <ul>
+        <li><a href="#">Trading Grid <span class="link-arrow">→</span></a></li>
+        <li><a href="#">B2B Integration <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Exstream / CCM <span class="link-arrow">→</span></a></li>
+        <li><a href="#">RightFax <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Security & Analytics</p>
+      <ul>
+        <li><a href="#">Fortify <span class="link-arrow">→</span></a></li>
+        <li><a href="#">EnCase <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Magellan Analytics <span class="link-arrow">→</span></a></li>
+        <li><a href="#">IDOL <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-promo">
+      <span class="mega-promo-tag">ACTIVATE</span>
+      <h4>Find your product path</h4>
+      <p>Answer a few questions to discover the right modernization path for your environment.</p>
+      <a href="#">Find your product →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Solutions -->
+<div class="mega-panel" id="panel-solutions" role="region" aria-label="Solutions">
+  <div class="mega-panel-inner cols-4">
+    <div class="mega-col">
+      <p class="mega-col-label">By Industry</p>
+      <ul>
+        <li><a href="#">Financial Services <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Healthcare & Life Sciences <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Government & Public Sector <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Manufacturing <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Energy & Utilities <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Retail & CPG <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">By Business Need</p>
+      <ul>
+        <li><a href="#">AI Readiness <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Cloud Migration <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Compliance & Governance <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Digital Transformation <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Intelligent Automation <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">By Technology</p>
+      <ul>
+        <li><a href="#">SAP Integration <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Salesforce Integration <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Microsoft 365 <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Google Workspace <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-promo">
+      <span class="mega-promo-tag">AI Era</span>
+      <h4>Solutions for the agentic enterprise</h4>
+      <p>Prepare your information infrastructure for AI agents that act autonomously.</p>
+      <a href="#">Explore AI solutions →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Services -->
+<div class="mega-panel" id="panel-services" role="region" aria-label="Services">
+  <div class="mega-panel-inner cols-3">
+    <div class="mega-promo">
+      <span class="mega-promo-tag">ACTIVATE</span>
+      <h4>Start your AI Readiness Assessment</h4>
+      <p>Map your current environment and get a prioritized modernization roadmap with clear milestones.</p>
+      <a href="#">Book a consultation →</a>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Professional Services</p>
+      <ul>
+        <li><a href="#">Implementation <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Migration Services <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Managed Services <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Training & Adoption <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Customer Success</p>
+      <ul>
+        <li><a href="#">Success Plans <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Technical Account Management <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Premium Support <span class="link-arrow">→</span></a></li>
+        <li><a href="#">OpenText University <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Partners -->
+<div class="mega-panel" id="panel-partners" role="region" aria-label="Partners">
+  <div class="mega-panel-inner cols-3">
+    <div class="mega-promo">
+      <span class="mega-promo-tag">Partner Network</span>
+      <h4>Build with OpenText</h4>
+      <p>Join a global ecosystem of system integrators, resellers, and technology partners.</p>
+      <a href="#">Become a partner →</a>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Partner Types</p>
+      <ul>
+        <li><a href="#">System Integrators <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Value-Added Resellers <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Technology Partners <span class="link-arrow">→</span></a></li>
+        <li><a href="#">OEM Partners <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Resources</p>
+      <ul>
+        <li><a href="#">Partner Portal <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Partner Locator <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Certification Program <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Developer Hub <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Support -->
+<div class="mega-panel" id="panel-support" role="region" aria-label="Support">
+  <div class="mega-panel-inner cols-3">
+    <div class="mega-col">
+      <p class="mega-col-label">Get Help</p>
+      <ul>
+        <li><a href="#">Knowledge Base <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Community Forums <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Submit a Ticket <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Product Documentation <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Download Center <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Learning</p>
+      <ul>
+        <li><a href="#">OpenText University <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Certification Exams <span class="link-arrow">→</span></a></li>
+        <li><a href="#">On-Demand Training <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Live Webinars <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-promo">
+      <span class="mega-promo-tag">24/7 Support</span>
+      <h4>Need immediate help?</h4>
+      <p>Our support team is available around the clock for critical issues.</p>
+      <a href="#">Contact Support →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Resources -->
+<div class="mega-panel" id="panel-resources" role="region" aria-label="Resources">
+  <div class="mega-panel-inner cols-4">
+    <div class="mega-col">
+      <p class="mega-col-label">Learn</p>
+      <ul>
+        <li><a href="#">Blog <span class="link-arrow">→</span></a></li>
+        <li><a href="#">White Papers <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Analyst Reports <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Case Studies <span class="link-arrow">→</span></a></li>
+        <li><a href="#">eBooks <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Watch & Listen</p>
+      <ul>
+        <li><a href="#">Webinars <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Video Library <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Podcasts <span class="link-arrow">→</span></a></li>
+        <li><a href="#">Events <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-col">
+      <p class="mega-col-label">Developers</p>
+      <ul>
+        <li><a href="#">Developer Hub <span class="link-arrow">→</span></a></li>
+        <li><a href="#">API Reference <span class="link-arrow">→</span></a></li>
+        <li><a href="#">SDKs & Tools <span class="link-arrow">→</span></a></li>
+        <li><a href="#">GitHub <span class="link-arrow">→</span></a></li>
+      </ul>
+    </div>
+    <div class="mega-promo">
+      <span class="mega-promo-tag">New Report</span>
+      <h4>2025 State of Information Management</h4>
+      <p>Key findings on how enterprises are preparing for the AI agent era.</p>
+      <a href="#">Download free →</a>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay" role="search">
+  <div class="search-overlay-inner">
+    <label for="globalSearch">Search OpenText</label>
+    <div class="search-row">
+      <input type="search" id="globalSearch" placeholder="Search products, solutions, resources…" autocomplete="off">
+      <button aria-label="Submit search">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+    </div>
+    <div class="search-suggest">
+      <span>Trending:</span>
+      <a href="#">ACTIVATE</a>
+      <a href="#">Extended ECM</a>
+      <a href="#">AI Readiness</a>
+      <a href="#">RightFax</a>
+      <a href="#">Exstream</a>
+    </div>
+  </div>
+</div>
 
 <!-- SUB NAV -->
 <nav class="sub-nav">
   <div class="sub-nav-inner">
     <span class="sub-nav-brand">ACTIVATE</span>
-    <div class="sub-nav-links">
-      <a href="#">Your Content</a>
-      <a href="#">Your Customer Communications</a>
-      <a href="#">Your Cloud Fax Infrastructure</a>
+    <div class="sub-nav-links" id="subNavLinks">
+      <a href="#section-content" data-target="section-content">Your Content</a>
+      <a href="#section-ccm" data-target="section-ccm">Your Customer Communications</a>
+      <a href="#section-fax" data-target="section-fax">Your Cloud Fax Infrastructure</a>
     </div>
   </div>
 </nav>
@@ -469,7 +1563,7 @@ body { font-family: var(--font); font-size: 16px; font-weight: 300; line-height:
     <div class="s-rule"></div>
     <p class="s-body" style="margin-bottom:32px;">Apply the solution across your environment.</p>
     <div class="where-cards">
-      <div class="where-card">
+      <div class="where-card" id="section-content">
         <div class="where-img where-img--blue">
           <span class="where-tag">ECM / ERAS / ETO</span>
         </div>
@@ -479,7 +1573,7 @@ body { font-family: var(--font); font-size: 16px; font-weight: 300; line-height:
           <a class="where-link" href="#">Learn more</a>
         </div>
       </div>
-      <div class="where-card">
+      <div class="where-card" id="section-ccm">
         <div class="where-img where-img--amber">
           <span class="where-tag">FIN / I-2-P / PROCURE</span>
         </div>
@@ -489,7 +1583,7 @@ body { font-family: var(--font); font-size: 16px; font-weight: 300; line-height:
           <a class="where-link" href="#">Learn more</a>
         </div>
       </div>
-      <div class="where-card">
+      <div class="where-card" id="section-fax">
         <div class="where-img where-img--teal">
           <span class="where-tag">FAX / eFAX / FaxPro2</span>
         </div>
@@ -618,14 +1712,444 @@ body { font-family: var(--font); font-size: 16px; font-weight: 300; line-height:
 </div>
 
 <script>
-  document.querySelectorAll('.faq-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.closest('.faq-item');
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
-    });
+/* ═══════════════════════════════════════════════════
+   FAQ
+═══════════════════════════════════════════════════ */
+document.querySelectorAll('.faq-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
   });
+});
+
+/* ═══════════════════════════════════════════════════
+   SCROLL-AWARE COMPACT NAV
+═══════════════════════════════════════════════════ */
+const mainNav  = document.getElementById('mainNav');
+const COMPACT_H = 48;
+const FULL_H    = 60;
+
+function updateNavHeight(compact) {
+  const h = compact ? COMPACT_H : FULL_H;
+  document.documentElement.style.setProperty('--nav-h', h + 'px');
+  mainNav.classList.toggle('compact', compact);
+}
+
+const scrollObserver = new IntersectionObserver(
+  ([entry]) => updateNavHeight(!entry.isIntersecting),
+  { rootMargin: '-80px 0px 0px 0px' }
+);
+/* Observe a sentinel element just below the fold of the nav */
+const sentinel = document.createElement('div');
+sentinel.style.cssText = 'position:absolute;top:80px;left:0;width:1px;height:1px;pointer-events:none;';
+document.body.prepend(sentinel);
+scrollObserver.observe(sentinel);
+
+/* ═══════════════════════════════════════════════════
+   MEGA NAV
+═══════════════════════════════════════════════════ */
+const backdrop      = document.getElementById('navBackdrop');
+const navItems      = document.querySelectorAll('#mainLinks > li[data-panel]');
+const searchBtn     = document.getElementById('searchToggle');
+const searchOverlay = document.getElementById('searchOverlay');
+let activePanel     = null;
+let searchOpen      = false;
+let closeTimer      = null;
+let openTimer       = null;   // hover-intent open delay
+
+/* ── panel open / close ── */
+function openPanel(panelId) {
+  clearTimeout(openTimer);
+  cancelClose();
+  closeSearch();
+  if (activePanel === panelId) return;
+  closeAllPanels(false);
+  const panel = document.getElementById('panel-' + panelId);
+  if (!panel) return;
+  activePanel = panelId;
+  panel.classList.add('visible');
+  backdrop.classList.add('visible');
+  navItems.forEach(li => {
+    const btn = li.querySelector('.nav-item-btn');
+    const isThis = li.dataset.panel === panelId;
+    li.classList.toggle('open', isThis);
+    btn.setAttribute('aria-expanded', isThis ? 'true' : 'false');
+  });
+}
+
+function scheduleOpen(panelId) {
+  clearTimeout(openTimer);
+  openTimer = setTimeout(() => openPanel(panelId), 90);
+}
+
+function scheduleClose() {
+  clearTimeout(openTimer);
+  closeTimer = setTimeout(() => closeAllPanels(true), 120);
+}
+
+function cancelClose() { clearTimeout(closeTimer); }
+
+function closeAllPanels(clearActive, returnFocus) {
+  document.querySelectorAll('.mega-panel.visible').forEach(p => p.classList.remove('visible'));
+  navItems.forEach(li => {
+    li.classList.remove('open');
+    li.querySelector('.nav-item-btn').setAttribute('aria-expanded', 'false');
+  });
+  backdrop.classList.remove('visible');
+  if (clearActive) {
+    if (returnFocus) {
+      /* return focus to the trigger that opened this panel */
+      const trigger = document.querySelector(`#mainLinks [data-panel="${activePanel}"] .nav-item-btn`);
+      if (trigger) trigger.focus();
+    }
+    activePanel = null;
+  }
+}
+
+function openSearch() {
+  closeAllPanels(true);
+  searchOpen = true;
+  searchOverlay.classList.add('visible');
+  backdrop.classList.add('visible');
+  searchBtn.classList.add('active');
+  searchBtn.setAttribute('aria-expanded', 'true');
+  setTimeout(() => document.getElementById('globalSearch').focus(), 50);
+}
+
+function closeSearch(returnFocus) {
+  if (!searchOpen) return;
+  searchOpen = false;
+  searchOverlay.classList.remove('visible');
+  backdrop.classList.remove('visible');
+  searchBtn.classList.remove('active');
+  searchBtn.setAttribute('aria-expanded', 'false');
+  if (returnFocus) searchBtn.focus();
+}
+
+/* ── hover intent ── */
+navItems.forEach(li => {
+  li.addEventListener('mouseenter', () => scheduleOpen(li.dataset.panel));
+  li.addEventListener('mouseleave', scheduleClose);
+  li.querySelector('.nav-item-btn').addEventListener('click', () => {
+    clearTimeout(openTimer);
+    if (activePanel === li.dataset.panel) closeAllPanels(true);
+    else openPanel(li.dataset.panel);
+  });
+});
+
+document.querySelectorAll('.mega-panel').forEach(panel => {
+  panel.addEventListener('mouseenter', cancelClose);
+  panel.addEventListener('mouseleave', scheduleClose);
+});
+
+searchBtn.addEventListener('click', () => {
+  if (searchOpen) closeSearch(true); else openSearch();
+});
+
+searchOverlay.addEventListener('mouseenter', cancelClose);
+searchOverlay.addEventListener('mouseleave', () => { if (searchOpen) scheduleClose(); });
+
+backdrop.addEventListener('click', () => { closeAllPanels(true); closeSearch(); });
+
+/* ── keyboard navigation inside mega panels ── */
+document.querySelectorAll('.mega-panel').forEach(panel => {
+  panel.addEventListener('keydown', e => {
+    const cols     = Array.from(panel.querySelectorAll('.mega-col'));
+    const allLinks = Array.from(panel.querySelectorAll('a[href]'));
+    const focused  = document.activeElement;
+    const focusedCol = cols.find(c => c.contains(focused));
+
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      closeAllPanels(true, true);
+      return;
+    }
+
+    if (e.key === 'Tab') {
+      /* trap focus inside panel */
+      const focusable = Array.from(panel.querySelectorAll('a[href], button:not([disabled])'));
+      const first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey && focused === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && focused === last) {
+        e.preventDefault();
+        first.focus();
+      }
+      return;
+    }
+
+    if (['ArrowDown','ArrowUp','ArrowLeft','ArrowRight','Home','End'].includes(e.key)) {
+      e.preventDefault();
+    } else return;
+
+    /* Arrow Down / Up within column */
+    if (focusedCol && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+      const colLinks = Array.from(focusedCol.querySelectorAll('a[href]'));
+      const idx = colLinks.indexOf(focused);
+      if (e.key === 'ArrowDown') colLinks[(idx + 1) % colLinks.length].focus();
+      else colLinks[(idx - 1 + colLinks.length) % colLinks.length].focus();
+      return;
+    }
+
+    /* Arrow Left / Right between columns */
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      const colIdx = cols.indexOf(focusedCol);
+      if (colIdx === -1) return;
+      const dir   = e.key === 'ArrowRight' ? 1 : -1;
+      const next  = cols[colIdx + dir];
+      if (next) {
+        const first = next.querySelector('a[href]');
+        if (first) first.focus();
+      }
+      return;
+    }
+
+    /* Home / End within column */
+    if (focusedCol) {
+      const colLinks = Array.from(focusedCol.querySelectorAll('a[href]'));
+      if (e.key === 'Home') colLinks[0].focus();
+      if (e.key === 'End')  colLinks[colLinks.length - 1].focus();
+    }
+  });
+});
+
+/* when focus leaves panel entirely, close it */
+document.querySelectorAll('.mega-panel').forEach(panel => {
+  panel.addEventListener('focusout', e => {
+    if (!panel.contains(e.relatedTarget)) {
+      /* only close if focus went outside nav too */
+      setTimeout(() => {
+        const nav = document.getElementById('mainNav');
+        if (!nav.contains(document.activeElement) && !panel.contains(document.activeElement)) {
+          closeAllPanels(true);
+        }
+      }, 0);
+    }
+  });
+});
+
+/* open panel on focus of trigger button (keyboard tab-in) */
+navItems.forEach(li => {
+  li.querySelector('.nav-item-btn').addEventListener('focus', () => {
+    if (activePanel && activePanel !== li.dataset.panel) openPanel(li.dataset.panel);
+  });
+});
+
+/* ═══════════════════════════════════════════════════
+   SEARCH OVERLAY KEYBOARD
+═══════════════════════════════════════════════════ */
+searchOverlay.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { e.preventDefault(); closeSearch(true); }
+  if (e.key === 'Tab') {
+    const focusable = Array.from(searchOverlay.querySelectorAll('input, button, a[href]'));
+    const first = focusable[0], last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+});
+
+/* global escape */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (langOpen)    closeLang(true);
+    if (activePanel) closeAllPanels(true, true);
+    if (searchOpen)  closeSearch(true);
+    if (mobOpen)     closeMob();
+  }
+});
+
+/* ═══════════════════════════════════════════════════
+   MOBILE DRAWER
+═══════════════════════════════════════════════════ */
+const hamburger  = document.getElementById('hamburger');
+const mobOverlay = document.getElementById('mobOverlay');
+const mobDrawer  = document.getElementById('mobDrawer');
+const mobClose   = document.getElementById('mobClose');
+let mobOpen      = false;
+let lastFocusBeforeMob = null;
+
+function openMob() {
+  mobOpen = true;
+  lastFocusBeforeMob = document.activeElement;
+  mobOverlay.classList.add('open');
+  mobDrawer.classList.add('open');
+  mobOverlay.setAttribute('aria-hidden', 'false');
+  mobDrawer.setAttribute('aria-hidden', 'false');
+  hamburger.classList.add('open');
+  hamburger.setAttribute('aria-expanded', 'true');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => mobClose.focus(), 50);
+}
+
+function closeMob() {
+  mobOpen = false;
+  mobOverlay.classList.remove('open');
+  mobDrawer.classList.remove('open');
+  mobOverlay.setAttribute('aria-hidden', 'true');
+  mobDrawer.setAttribute('aria-hidden', 'true');
+  hamburger.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+  if (lastFocusBeforeMob) lastFocusBeforeMob.focus();
+}
+
+hamburger.addEventListener('click', () => { if (mobOpen) closeMob(); else openMob(); });
+mobClose.addEventListener('click', closeMob);
+mobOverlay.addEventListener('click', closeMob);
+
+/* mobile accordion */
+document.querySelectorAll('.mob-acc-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item   = btn.closest('.mob-acc-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.mob-acc-item').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.mob-acc-btn').setAttribute('aria-expanded', 'false');
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  });
+});
+
+/* focus trap in mobile drawer */
+mobDrawer.addEventListener('keydown', e => {
+  if (!mobOpen) return;
+  if (e.key === 'Escape') { closeMob(); return; }
+  if (e.key === 'Tab') {
+    const focusable = Array.from(mobDrawer.querySelectorAll('a[href], button:not([disabled])'))
+      .filter(el => el.offsetParent !== null); /* only visible */
+    const first = focusable[0], last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+});
+
+/* ═══════════════════════════════════════════════════
+   SUB-NAV SCROLL-SPY (IntersectionObserver)
+═══════════════════════════════════════════════════ */
+const subNavLinks = document.querySelectorAll('#subNavLinks a[data-target]');
+const sectionEls  = Array.from(subNavLinks).map(a =>
+  document.getElementById(a.dataset.target)
+).filter(Boolean);
+
+function setActiveSubLink(id) {
+  subNavLinks.forEach(a => a.classList.toggle('active', a.dataset.target === id));
+}
+
+if (sectionEls.length) {
+  const spyObserver = new IntersectionObserver(entries => {
+    /* pick the entry that is most visible */
+    let best = null, bestRatio = 0;
+    entries.forEach(e => {
+      if (e.isIntersecting && e.intersectionRatio > bestRatio) {
+        bestRatio = e.intersectionRatio;
+        best = e.target.id;
+      }
+    });
+    if (best) setActiveSubLink(best);
+  }, {
+    rootMargin: '-20% 0px -60% 0px',
+    threshold: [0, 0.25, 0.5, 0.75, 1]
+  });
+  sectionEls.forEach(el => spyObserver.observe(el));
+}
+
+/* ═══════════════════════════════════════════════════
+   LANGUAGE SWITCHER
+═══════════════════════════════════════════════════ */
+const langToggle = document.getElementById('langToggle');
+const langPanel  = document.getElementById('langPanel');
+const langClose  = document.getElementById('langPanelClose');
+let langOpen     = false;
+
+function openLang() {
+  langOpen = true;
+  langPanel.classList.add('visible');
+  langToggle.classList.add('active');
+  langToggle.setAttribute('aria-expanded', 'true');
+  /* close mega panels / search if open */
+  closeAllPanels(true);
+  closeSearch();
+  setTimeout(() => langClose.focus(), 50);
+}
+
+function closeLang(returnFocus) {
+  if (!langOpen) return;
+  langOpen = false;
+  langPanel.classList.remove('visible');
+  langToggle.classList.remove('active');
+  langToggle.setAttribute('aria-expanded', 'false');
+  if (returnFocus) langToggle.focus();
+}
+
+langToggle.addEventListener('click', e => {
+  e.stopPropagation();
+  if (langOpen) closeLang(true); else openLang();
+});
+
+langClose.addEventListener('click', () => closeLang(true));
+
+/* clicking outside closes the panel */
+document.addEventListener('click', e => {
+  if (langOpen && !langPanel.closest('.lang-wrapper').contains(e.target)) closeLang();
+});
+
+/* keyboard trap + Escape */
+langPanel.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { e.preventDefault(); closeLang(true); return; }
+  if (e.key === 'Tab') {
+    const focusable = Array.from(langPanel.querySelectorAll('button:not([disabled])'));
+    const first = focusable[0], last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+  /* arrow keys navigate the language grid */
+  if (['ArrowDown','ArrowUp','ArrowLeft','ArrowRight'].includes(e.key)) {
+    e.preventDefault();
+    const opts = Array.from(langPanel.querySelectorAll('.lang-opt'));
+    const idx  = opts.indexOf(document.activeElement);
+    if (idx === -1) return;
+    const cols = 2;
+    let next = idx;
+    if (e.key === 'ArrowRight') next = idx + 1;
+    if (e.key === 'ArrowLeft')  next = idx - 1;
+    if (e.key === 'ArrowDown')  next = idx + cols;
+    if (e.key === 'ArrowUp')    next = idx - cols;
+    if (opts[next]) opts[next].focus();
+  }
+});
+
+/* language selection */
+document.querySelectorAll('.lang-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.lang-opt').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    /* update globe button aria-label to reflect chosen language */
+    const langName = btn.textContent.trim();
+    langToggle.setAttribute('aria-label', `Language: ${langName}`);
+    setTimeout(() => closeLang(true), 200);
+  });
+});
+
+/* smooth-scroll sub-nav links, account for sticky bars */
+subNavLinks.forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.getElementById(a.dataset.target);
+    if (!target) return;
+    /* scroll to the parent section so the heading is visible */
+    const section = target.closest('section') || target;
+    const navH   = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'));
+    const offset  = navH + 40 + 16; /* main nav + sub-nav + breathing room */
+    const top     = section.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+});
 </script>
 </body>
 </html>
